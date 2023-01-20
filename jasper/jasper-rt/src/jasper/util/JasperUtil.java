@@ -42,6 +42,8 @@ public final class JasperUtil
     if (c instanceof BNumericPoint)    return "ai." + suffix;
     if (c instanceof BBooleanWritable) return "bv." + suffix;
     if (c instanceof BBooleanPoint)    return "bi." + suffix;
+    if (c instanceof BEnumWritable)    return "ev." + suffix;
+    if (c instanceof BEnumPoint)       return "ei." + suffix;
 
     // unsupported type
     throw new RuntimeException("Unsupported point type '" + c.getName() + "'");
@@ -76,6 +78,35 @@ public final class JasperUtil
 
     // if we get here then assume no value
     return null;
+  }
+
+  /**
+   * Parse a BFacet range value into a Jaspser compatible
+   * or 'null' if string is empty.
+   */
+  public static String parseEnumRange(String range)
+  {
+    // short-circuit if empty string
+    if (range == null || range.length() == 0) return null;
+
+    // TODO: for now assume zero-based and ordered
+    // {alpha=0,beta=1,gamma=2} -> alpha,beta,gamma
+
+    StringBuffer buf = new StringBuffer();
+    for (int i=0; i<range.length(); i++)
+    {
+      char ch = range.charAt(i);
+      if (ch == '{') continue;
+      if (ch == '=')
+      {
+        // eat =xxx segment
+        while (ch != ',' && ch != '}')
+          ch = range.charAt(++i);
+      }
+      if (ch == '}') continue;
+      buf.append(ch);
+    }
+    return buf.toString();
   }
 
 ////////////////////////////////////////////////////////////////
@@ -119,7 +150,6 @@ public final class JasperUtil
   public static String[] splitPath(String path)
   {
     String[] orig = path.split("/");
-    System.out.println(">>>" + path);
 
     // get non-empty size
     int size = 0;

@@ -76,7 +76,7 @@ public final class BJasperServlet extends BWebServlet
     if (path[0].equals("v1"))
     {
       if (path[1].equals("about"))  { doAbout(op);  return; }
-      // if (path[1].equals("points")) { doPoints(op); return; }
+      if (path[1].equals("points")) { doPoints(op); return; }
       // if (path[1].equals("values")) { doValues(op); return; }
     }
 
@@ -110,7 +110,6 @@ public final class BJasperServlet extends BWebServlet
   }
 
   /** Service /v1/points request. */
-  /*
   private void doPoints(WebOp op) throws IOException
   {
     String[] ids = index.ids();
@@ -131,6 +130,11 @@ public final class BJasperServlet extends BWebServlet
       json.writeKey("id").writeVal(p.id).write(',');
       json.writeKey("name").writeVal(p.name).write(',');
       json.writeKey("path").writeVal(p.path);
+      if (p.enums != null)
+      {
+        json.write(',');
+        json.writeKey("enum").writeVal(p.enums);
+      }
       if (p.unit != null)
       {
         json.write(',');
@@ -142,7 +146,6 @@ public final class BJasperServlet extends BWebServlet
     json.write('}');
     json.flush().close();
   }
-  */
 
   /** Service /v1/values request. */
   /*

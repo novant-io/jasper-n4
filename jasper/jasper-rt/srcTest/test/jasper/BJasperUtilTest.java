@@ -43,6 +43,17 @@ public static final Type TYPE = Sys.loadType(BJasperUtilTest.class);
   @AfterMethod public void afterMethod() {}
 
 ////////////////////////////////////////////////////////////////
+// testParseEnumRange
+////////////////////////////////////////////////////////////////
+
+  @Test public void testParseEnumRange() throws IOException
+  {
+    verifyEq(JasperUtil.parseEnumRange(null), null);
+    verifyEq(JasperUtil.parseEnumRange(""), null);
+    verifyEq(JasperUtil.parseEnumRange("{alpha=0,beta=1,gamma=2}"), "alpha,beta,gamma");
+  }
+
+////////////////////////////////////////////////////////////////
 // testSplitPath
 ////////////////////////////////////////////////////////////////
 

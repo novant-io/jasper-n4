@@ -123,17 +123,30 @@ public final class BJasperService extends BAbstractService
       for (int i=0; i<comps.length; i++)
       {
         BComponent c = comps[i];
-        if (c instanceof BNumericPoint || c instanceof BBooleanPoint)
+        if (c instanceof BNumericPoint || c instanceof BBooleanPoint || c instanceof BEnumPoint)
         {
-          String id   = JasperUtil.getPointId(c);
-          String name = c.getName();
-          String path = c.getSlotPath().toString().substring(5);
-          String unit = null;
+          String id    = JasperUtil.getPointId(c);
+          String name  = c.getName();
+          String path  = c.getSlotPath().toString().substring(5);
+          String unit  = null;
+          String enums = null;
 
           BFacets f = (BFacets)c.get("facets");
-          if (f != null) unit = f.gets("units", null);
+          if (f != null)
+          {
+            // get units
+            unit = f.gets("units", null);
+            if (unit != null && unit.equals("null")) unit = null;
 
-          JasperPoint point = new JasperPoint(id, name, path, unit);
+            // get enum range
+            if (c instanceof BEnumPoint)
+            {
+              String r = f.gets("range", null);
+              if (r != null) enums = JasperUtil.parseEnumRange(r);
+            }
+          }
+
+          JasperPoint point = new JasperPoint(id, name, path, enums, unit);
           index.add(point);
         }
       }

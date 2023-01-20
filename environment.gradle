@@ -1,0 +1,11 @@
+/*
+ * Copyright 2023 Novant, All Rights Reserved.
+ */
+/* Environment Configuration File */
+
+// Change niagara_home and niagara_user_home as needed to point to the
+// correct path to your desired Niagara install and its associated
+// user home
+gradle.ext.niagara_dev_home = "Y:/proj/novant/eng/jasper-n4"
+gradle.ext.niagara_home = "C:/niagara/Niagara-4.12.0.156"
+gradle.ext.niagara_user_home = "C:/Users/andy/Niagara4.12/tridium"

@@ -1,0 +1,12 @@
+<!-- Module Include File -->
+
+<!-- Types -->
+<types>
+
+  <!-- jasper.service -->
+  <type name="JasperService" class="jasper.service.BJasperService" />
+
+  <!-- jasper.servlet -->
+  <type name="JasperServlet" class="jasper.servlet.BJasperServlet" />
+
+</types>

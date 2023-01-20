@@ -1,0 +1,9 @@
+/*
+ * Copyright 2023 Novant, All Rights Reserved.
+ */
+/* Vendor Configuration File */
+group = 'Novant'
+
+def moduleVersion = '0.1'
+def moduleVersionPatch = [:]
+version = "${moduleVersion}${moduleVersionPatch.get(project.name, '')}"

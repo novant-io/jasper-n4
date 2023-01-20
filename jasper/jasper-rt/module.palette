@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bajaObjectGraph version="4.0" reversibleEncodingKeySource="none" FIPSEnabled="false" reversibleEncodingValidator="[null.1]=" >
+<p m="b=baja" t="b:Folder" n="jasper">
+  <p m="j=jasper" t="j:JasperService" n="JasperService"/>
+</p>
+</bajaObjectGraph>

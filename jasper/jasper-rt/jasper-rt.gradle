@@ -1,0 +1,26 @@
+/* Module Build File */
+
+description = "Jasper API for N4"
+
+ext {
+}
+
+niagaraModule {
+  moduleName = "jasper"
+  preferredSymbol = "jasper"
+  runtimeProfile = "rt"
+}
+
+dependencies {
+  compile "Tridium:nre:4.8"
+  compile "Tridium:baja:4.8"
+  compile "Tridium:control-rt:4.8"
+  compile "Tridium:web-rt:4.8"
+
+  uberjar "javax.servlet:javax.servlet-api:3.0.1"
+}
+
+moduleTestJar {
+  from('srcTest') {
+  }
+}

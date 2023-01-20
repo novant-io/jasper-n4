@@ -91,6 +91,7 @@ public final class BJasperServlet extends BWebServlet
     res.setStatus(200);
     res.setHeader("Content-Type", "application/json");
 
+    // TODO: watch trailing comma bugs; should JsonWriter handle internally?
     JsonWriter json = new JsonWriter(res.getOutputStream());
     json.write('{');
 
@@ -98,12 +99,12 @@ public final class BJasperServlet extends BWebServlet
     json.writeKey("name").writeVal(Sys.getStation().getStationName()).write(',');
     json.writeKey("vendor").writeVal("Tridium").write(',');
     json.writeKey("model").writeVal("Niagara 4").write(',');
-    json.writeKey("version").writeVal(BComponent.TYPE.getVendorVersion().toString());
+    json.writeKey("version").writeVal(BComponent.TYPE.getVendorVersion().toString()).write(',');
 
     // additional fields
     BModule module = BJasperService.TYPE.getModule();
     json.writeKey("moduleName").writeVal(module.getModuleName()).write(',');
-    json.writeKey("moduleVersion").writeVal(BJasperService.TYPE.getVendorVersion().toString()).write(',');
+    json.writeKey("moduleVersion").writeVal(BJasperService.TYPE.getVendorVersion().toString());
 
     json.write('}');
     json.flush().close();

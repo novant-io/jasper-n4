@@ -97,6 +97,7 @@ public final class JasperUtil
     {
       char ch = range.charAt(i);
       if (ch == '{') continue;
+      if (ch == ' ') continue;
       if (ch == '=')
       {
         // eat =xxx segment
@@ -106,6 +107,8 @@ public final class JasperUtil
       if (ch == '}') continue;
       buf.append(ch);
     }
+
+    if (buf.length() == 0) return null;
     return buf.toString();
   }
 

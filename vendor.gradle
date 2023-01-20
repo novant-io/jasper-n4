@@ -4,6 +4,6 @@
 /* Vendor Configuration File */
 group = 'Novant'
 
-def moduleVersion = '0.1'
+def moduleVersion = '0.2'
 def moduleVersionPatch = [:]
 version = "${moduleVersion}${moduleVersionPatch.get(project.name, '')}"

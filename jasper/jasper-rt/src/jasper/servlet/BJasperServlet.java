@@ -128,7 +128,7 @@ public final class BJasperServlet extends BWebServlet
       JasperPoint p = index.get(ids[i]);
       if (i > 0) json.write(',');
       json.write('{');
-      json.writeKey("id").writeVal(p.id).write(',');
+      json.writeKey("addr").writeVal(p.addr).write(',');
       json.writeKey("name").writeVal(p.name).write(',');
       json.writeKey("path").writeVal(p.path);
       if (p.enums != null)
@@ -165,13 +165,13 @@ public final class BJasperServlet extends BWebServlet
     for (int i=0; i<ids.length; i++)
     {
       JasperPoint p = index.get(ids[i]);
-      BOrd h = JasperUtil.getOrdFromId(p.id);
+      BOrd h = JasperUtil.getOrdFromId(p.addr);
       BComponent c = (BComponent)h.resolve(service).get();
       Object val = JasperUtil.getPointJsonValue(c);
 
       if (i > 0) json.write(',');
       json.write('{');
-      json.writeKey("id").writeVal(p.id).write(',');
+      json.writeKey("addr").writeVal(p.addr).write(',');
       json.writeKey("val").writeVal(val);
       json.write('}');
     }

@@ -17,17 +17,17 @@ import javax.baja.sys.*;
 public final class JasperPoint
 {
   /** Constructor */
-  public JasperPoint(String id, String name, String path, String enums, String unit)
+  public JasperPoint(String addr, String name, String path, String enums, String unit)
   {
-    this.id    = id;
+    this.addr  = addr;
     this.name  = name;
     this.path  = path;
     this.enums = enums;
     this.unit  = unit;
   }
 
-  /** Unique id for this point. */
-  public final String id;
+  /** Unique address for this point. */
+  public final String addr;
 
   /** Name of this point. */
   public final String name;

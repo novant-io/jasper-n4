@@ -36,7 +36,7 @@ public final class JasperIndex
   /** Add a new point to index. */
   public void add(JasperPoint p)
   {
-    map.put(p.id, p);
+    map.put(p.addr, p);
   }
 
   /** Get current ids in index. */
@@ -48,10 +48,10 @@ public final class JasperIndex
     return acc;
   }
 
-  /** Get the point for given id or null if not found. */
-  public JasperPoint get(String id)
+  /** Get the point for given addr or null if not found. */
+  public JasperPoint get(String addr)
   {
-    return (JasperPoint)map.get(id);
+    return (JasperPoint)map.get(addr);
   }
 
   private HashMap map = new HashMap();

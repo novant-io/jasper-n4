@@ -68,9 +68,9 @@ public final class JasperUtil
 
     if (out instanceof BStatusValue)
     {
-      // if status != ok return "NaN"
+      // if "na" if status not valid
       BStatusValue val = (BStatusValue)out;
-      if (!val.getStatus().isOk()) return "NaN";
+      if (!val.getStatus().isValid()) return "na";
 
       // return as BStatusValue and let JsonWriter encode
       return val;

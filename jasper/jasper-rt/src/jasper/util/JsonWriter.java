@@ -10,6 +10,7 @@ package jasper.util;
 
 import java.io.*;
 import java.util.*;
+import javax.baja.status.*;
 
 /**
  * JsonWriter.
@@ -80,6 +81,30 @@ public final class JsonWriter
       return this;
     }
 
+    // BStatusBoolean
+    if (val instanceof BStatusBoolean)
+    {
+      BStatusBoolean b = (BStatusBoolean)val;
+      out.print(b.getValue() ? 1 : 0);
+      return this;
+    }
+
+    // BStatusNumeric
+    if (val instanceof BStatusNumeric)
+    {
+      BStatusNumeric n = (BStatusNumeric)val;
+      out.print(n.getValue());
+      return this;
+    }
+
+    // BStatusEnum
+    if (val instanceof BStatusEnum)
+    {
+      BStatusEnum e = (BStatusEnum)val;
+      out.print(e.getValue().getOrdinal());
+      return this;
+    }
+
     // HashMap
     if (val instanceof HashMap)
     {
@@ -102,7 +127,7 @@ public final class JsonWriter
     }
 
     // unsupported type
-    throw new IOException("Unsupported type '" + val + "'");
+    throw new IOException("Unsupported type '" + val + "' [" + val.getClass().getName() + "]");
   }
 
   private PrintWriter out;

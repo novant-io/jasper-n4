@@ -77,7 +77,7 @@ public final class BJasperServlet extends BWebServlet
     {
       if (path[1].equals("about"))  { doAbout(op);  return; }
       if (path[1].equals("points")) { doPoints(op); return; }
-      // if (path[1].equals("values")) { doValues(op); return; }
+      if (path[1].equals("values")) { doValues(op); return; }
     }
 
     // if we get here then 404
@@ -148,7 +148,6 @@ public final class BJasperServlet extends BWebServlet
   }
 
   /** Service /v1/values request. */
-  /*
   private void doValues(WebOp op) throws IOException
   {
     BJasperService service = (BJasperService)this.getParent();
@@ -179,7 +178,6 @@ public final class BJasperServlet extends BWebServlet
     json.write('}');
     json.flush().close();
   }
-  */
 
 ////////////////////////////////////////////////////////////////
 // Attributes

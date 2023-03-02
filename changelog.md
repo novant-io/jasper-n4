@@ -1,6 +1,8 @@
 # Changelog
 
-## Version 0.3 (working)
+## Version 0.4 (working)
+
+## Version 0.3 (1-Mar-2023)
 * Add support for publically-signed module signing
 
 ## Version 0.2 (20-Jan-2023)

@@ -37,3 +37,11 @@ gradle.beforeProject { p ->
     }
   }
 }
+
+subprojects { Project p ->
+  p.pluginManager.withPlugin('com.tridium.niagara-module') {
+    p.niagaraModule {
+      certAlias = "novant-code-cert"
+    }
+  }
+}

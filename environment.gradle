@@ -3,9 +3,13 @@
  */
 /* Environment Configuration File */
 
+// 4.10 -> 4.10.0.154
+// 4.11 -> 4.11.0.142
+// 4.12 -> 4.12.0.156
+
 // Change niagara_home and niagara_user_home as needed to point to the
 // correct path to your desired Niagara install and its associated
 // user home
 gradle.ext.niagara_dev_home = "Y:/proj/novant/eng/jasper-n4"
-gradle.ext.niagara_home = "C:/niagara/Niagara-4.12.0.156"
-gradle.ext.niagara_user_home = "C:/Users/andy/Niagara4.12/tridium"
+gradle.ext.niagara_home = "C:/niagara/Niagara-4.10.0.154"
+gradle.ext.niagara_user_home = "C:/Users/andy/Niagara4.10/tridium"

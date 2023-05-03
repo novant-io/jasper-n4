@@ -1,6 +1,8 @@
 # Changelog
 
-## Version 0.4 (working)
+## Version 0.5 (working)
+
+## Version 0.4 (3-May-2023)
 * Set min build target to `4.10` for better compatibility
 * Remove `size` props to match updated Jasper spec
 

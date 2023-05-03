@@ -8,6 +8,24 @@ An implementation of the [Jasper][jasper] JSON API for Niagara N4.
 
 [rel]: https://github.com/novant-io/jasper-n4/releases
 
+### Supported Niagara Versions
+
+Jasper is compatible with Niagara `4.10` and later.
+
+### User Setup
+
+Jasper requires TLS and a user with HTTP Basic Authentication to connect to
+Niagara. To create a new user for Jasper:
+
+ 1. Open the `baja` palette
+ 2. Find `HTTPBasicScheme` under `AuthenticationServices/WebServicesSchemes`
+ 3. Drag `HTTPBasicScheme` into your station under
+    `Services/AuthenticationServices/WebServicesSchemes`
+ 4. Create a new user and set `Authentication Scheme Name` to `HTTPBasicScheme`
+ 5. Verify user `Roles` has sufficient privileges
+
+### Jasper Setup
+
 To setup Jasper on your JACE:
 
  1. Install the [latest][rel] `jasper-rt.jar` module onto your system
@@ -15,7 +33,9 @@ To setup Jasper on your JACE:
  3. Drag the `JasperService` into your `Services` component
  4. Let the index build and Done! 🏁
 
- ## About
+## API Examples
+
+### About
 
     $ curl host/jasper/v1/about -u username:password
 
@@ -25,15 +45,14 @@ To setup Jasper on your JACE:
       "model": "Niagara 4",
       "version": "4.12.0.156",
       "moduleName": "jasper",
-      "moduleVersion": "0.1"
+      "moduleVersion": "0.4"
     }
 
-## Points
+### Points
 
     $ curl host/jasper/v1/points -u username:password
 
     {
-      "size": 4,
       "points": [
         {
           "addr": "av.1b6b",
@@ -61,12 +80,11 @@ To setup Jasper on your JACE:
       ]
     }
 
-## Values
+### Values
 
     $ curl host/jasper/v1/values -u username:password
 
     {
-      "size": 3,
       "values": [
         { "addr":"av.1b6b", "val":72 },
         { "addr":"bv.1b75", "val":1 },

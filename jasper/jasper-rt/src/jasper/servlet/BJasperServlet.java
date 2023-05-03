@@ -121,7 +121,6 @@ public final class BJasperServlet extends BWebServlet
 
     JsonWriter json = new JsonWriter(res.getOutputStream());
     json.write('{');
-    json.writeKey("size").writeVal(ids.length).write(',');
     json.writeKey("points").write('[');
     for (int i=0; i<ids.length; i++)
     {
@@ -160,7 +159,6 @@ public final class BJasperServlet extends BWebServlet
 
     JsonWriter json = new JsonWriter(res.getOutputStream());
     json.write('{');
-    json.writeKey("size").writeVal(ids.length).write(',');
     json.writeKey("values").write('[');
     for (int i=0; i<ids.length; i++)
     {

@@ -1,6 +1,8 @@
 # Changelog
 
 ## Version 0.4 (working)
+* Set min build target to `4.10` for better compatibility
+* Remove `size` props to match updated Jasper spec
 
 ## Version 0.3 (1-Mar-2023)
 * Add support for publicly-signed module signing

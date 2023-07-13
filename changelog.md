@@ -1,6 +1,8 @@
 # Changelog
 
-## Version 0.5 (working)
+## Version 0.6 (working)
+
+## Version 0.5 (13-Jul-2023)
 * Add support for `path_prefix` arg on `/points` and `/values` endpoints
 * Unescape URL-encoding for point `name` and `path` on `/points` endpoint
 

@@ -114,7 +114,13 @@ public final class BJasperServlet extends BWebServlet
   private void doPoints(WebOp op) throws IOException
   {
     String[] ids = index.ids();
+    int num = 0;
 
+    // request args
+    HttpServletRequest req = op.getRequest();
+    String prefix = req.getParameter("path_prefix");
+
+    // response
     HttpServletResponse res = op.getResponse();
     res.setStatus(200);
     res.setHeader("Content-Type", "application/json");
@@ -125,7 +131,13 @@ public final class BJasperServlet extends BWebServlet
     for (int i=0; i<ids.length; i++)
     {
       JasperPoint p = index.get(ids[i]);
-      if (i > 0) json.write(',');
+
+      // skip if supplied path_prefix does not match
+      if (prefix != null && !p.path.startsWith(prefix)) continue;
+
+      // prefix trailing commas
+      if (num > 0) json.write(',');
+
       json.write('{');
       json.writeKey("addr").writeVal(p.addr).write(',');
       json.writeKey("name").writeVal(p.name).write(',');
@@ -141,6 +153,7 @@ public final class BJasperServlet extends BWebServlet
         json.writeKey("unit").writeVal(p.unit);
       }
       json.write('}');
+      num++;
     }
     json.write(']');
     json.write('}');
@@ -152,7 +165,13 @@ public final class BJasperServlet extends BWebServlet
   {
     BJasperService service = (BJasperService)this.getParent();
     String[] ids = index.ids();
+    int num = 0;
 
+    // request args
+    HttpServletRequest req = op.getRequest();
+    String prefix = req.getParameter("path_prefix");
+
+    // response
     HttpServletResponse res = op.getResponse();
     res.setStatus(200);
     res.setHeader("Content-Type", "application/json");
@@ -163,15 +182,23 @@ public final class BJasperServlet extends BWebServlet
     for (int i=0; i<ids.length; i++)
     {
       JasperPoint p = index.get(ids[i]);
+
+      // skip if supplied path_prefix does not match
+      if (prefix != null && !p.path.startsWith(prefix)) continue;
+
+      // get point value
       BOrd h = JasperUtil.getOrdFromId(p.addr);
       BComponent c = (BComponent)h.resolve(service).get();
       Object val = JasperUtil.getPointJsonValue(c);
 
-      if (i > 0) json.write(',');
+      // prefix trailing commas
+      if (num > 0) json.write(',');
+
       json.write('{');
       json.writeKey("addr").writeVal(p.addr).write(',');
       json.writeKey("val").writeVal(val);
       json.write('}');
+      num++;
     }
     json.write(']');
     json.write('}');

@@ -126,8 +126,8 @@ public final class BJasperService extends BAbstractService
         if (c instanceof BNumericPoint || c instanceof BBooleanPoint || c instanceof BEnumPoint)
         {
           String id    = JasperUtil.getPointId(c);
-          String name  = c.getName();
-          String path  = c.getSlotPath().toString().substring(5);
+          String name  = JasperUtil.unescapeSlotPath(c.getName());
+          String path  = JasperUtil.unescapeSlotPath(c.getSlotPath().toString().substring(5));
           String unit  = null;
           String enums = null;
 

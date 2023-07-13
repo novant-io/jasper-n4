@@ -59,6 +59,31 @@ public final class JasperUtil
   }
 
   /**
+   * Unescape component slot path.
+   */
+  public static String unescapeSlotPath(String orig)
+  {
+    StringBuffer buf  = new StringBuffer();
+    StringBuffer temp = new StringBuffer();
+
+    for (int i=0; i<orig.length(); i++)
+    {
+      int ch = orig.charAt(i);
+      if (ch == '$' && (i+2 < orig.length()))
+      {
+        // clear out temp buffer for reuse
+        temp.setLength(0);
+        temp.append(orig.charAt(++i));
+        temp.append(orig.charAt(++i));
+        ch = (char)Integer.parseInt(temp.toString(), 16);
+      }
+      buf.append((char)ch);
+    }
+
+    return buf.toString();
+  }
+
+  /**
    * Get the JSON representation for the current value
    * of given point, or 'null' if not available.
    */

@@ -43,6 +43,29 @@ public static final Type TYPE = Sys.loadType(BJasperUtilTest.class);
   @AfterMethod public void afterMethod() {}
 
 ////////////////////////////////////////////////////////////////
+// testUnescapeSlotPath
+////////////////////////////////////////////////////////////////
+
+  @Test public void testUnescapeSlotPath() throws IOException
+  {
+    verifyEq(JasperUtil.unescapeSlotPath(""), "");
+    verifyEq(JasperUtil.unescapeSlotPath("/Foo"), "/Foo");
+    verifyEq(JasperUtil.unescapeSlotPath("/Foo/Bar"), "/Foo/Bar");
+
+    verifyEq(JasperUtil.unescapeSlotPath("/Foo$205"),   "/Foo 5");
+    verifyEq(JasperUtil.unescapeSlotPath("/Foo$2dBar"), "/Foo-Bar");
+    verifyEq(JasperUtil.unescapeSlotPath("/Foo$24Bar"), "/Foo$Bar");
+    verifyEq(JasperUtil.unescapeSlotPath("/Foo$2fBar"), "/Foo/Bar");
+
+    verifyEq(JasperUtil.unescapeSlotPath("/Foo$205$2dBar$2dCar"),"/Foo 5-Bar-Car");
+
+    // these cases should never happen, but just in case cover
+    // when not enough chars to decode
+    verifyEq(JasperUtil.unescapeSlotPath("/Foo$"),  "/Foo$");
+    verifyEq(JasperUtil.unescapeSlotPath("/Foo$2"), "/Foo$2");
+  }
+
+////////////////////////////////////////////////////////////////
 // testParseEnumRange
 ////////////////////////////////////////////////////////////////
 

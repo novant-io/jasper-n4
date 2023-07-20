@@ -150,10 +150,27 @@ public final class JasperUtil
   /** Send an error repsponse as JSON with code and msg. */
   public static void sendErr(WebOp op, int code, String msg) throws IOException
   {
+    sendErr(op, code, msg, null);
+  }
+
+  /** Send an error repsponse as JSON with code and msg. */
+  public static void sendErr(WebOp op, int code, String msg, Exception cause) throws IOException
+  {
     HttpServletResponse res = op.getResponse();
     res.setStatus(code);
     res.setHeader("Content-Type", "application/json");
-    op.getHtmlWriter().w("{\"err_msg\":\"").safe(msg).w("\"}").flush();
+
+    JsonWriter json = new JsonWriter(res.getOutputStream());
+    json.write('{');
+    json.writeKey("err_msg").writeVal(msg);
+    if (cause != null)
+    {
+      json.write(',');
+      json.writeKey("err_trace");
+      json.writeVal(printStackTraceToString(cause));
+    }
+    json.write('}');
+    json.flush().close();
   }
 
   /** Read content from request. */
@@ -190,5 +207,18 @@ public final class JasperUtil
     for (int i=0; i<orig.length; i++)
       if (orig[i].length() > 0) acc[p++] = orig[i];
     return acc;
+  }
+
+////////////////////////////////////////////////////////////////
+// Exceptions
+////////////////////////////////////////////////////////////////
+
+  /** Print stack trace to string. */
+  public static String printStackTraceToString(Exception ex)
+  {
+    StringWriter sw = new StringWriter();
+    PrintWriter pw = new PrintWriter(sw);
+    ex.printStackTrace(pw);
+    return sw.toString();
   }
 }

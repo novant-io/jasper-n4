@@ -61,27 +61,35 @@ public final class BJasperServlet extends BWebServlet
 
   public void doPost(WebOp op) throws IOException
   {
-    // NOTE: getPathInfo removes 'jasper' prefix from path already
-    HttpServletRequest req = op.getRequest();
-    String[] path = JasperUtil.splitPath(req.getPathInfo());
-
-    // sanity check path is long enough
-    if (path.length < 2)
+    try
     {
+      // NOTE: getPathInfo removes 'jasper' prefix from path already
+      HttpServletRequest req = op.getRequest();
+      String[] path = JasperUtil.splitPath(req.getPathInfo());
+
+      // sanity check path is long enough
+      if (path.length < 2)
+      {
+        JasperUtil.sendNotFound(op);
+        return;
+      }
+
+      // key off version
+      if (path[0].equals("v1"))
+      {
+        if (path[1].equals("about"))  { doAbout(op);  return; }
+        if (path[1].equals("points")) { doPoints(op); return; }
+        if (path[1].equals("values")) { doValues(op); return; }
+      }
+
+      // if we get here then 404
       JasperUtil.sendNotFound(op);
-      return;
     }
-
-    // key off version
-    if (path[0].equals("v1"))
+    catch (Exception ex)
     {
-      if (path[1].equals("about"))  { doAbout(op);  return; }
-      if (path[1].equals("points")) { doPoints(op); return; }
-      if (path[1].equals("values")) { doValues(op); return; }
+      ex.printStackTrace();
+      JasperUtil.sendErr(op, 500, "Unexpected error", ex);
     }
-
-    // if we get here then 404
-    JasperUtil.sendNotFound(op);
   }
 
   /** Service /v1/about request. */

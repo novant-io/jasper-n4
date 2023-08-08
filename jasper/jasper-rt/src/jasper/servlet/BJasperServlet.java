@@ -197,6 +197,7 @@ public final class BJasperServlet extends BWebServlet
       // get point value
       BOrd h = JasperUtil.getOrdFromId(p.addr);
       BComponent c = (BComponent)h.resolve(service).get();
+      c.lease(1, leaseTime);
       Object val = JasperUtil.getPointJsonValue(c);
 
       // prefix trailing commas
@@ -218,4 +219,5 @@ public final class BJasperServlet extends BWebServlet
 ////////////////////////////////////////////////////////////////
 
   private JasperIndex index;
+  private final long leaseTime = 60000;   // 1min in millis
 }

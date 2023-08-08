@@ -93,7 +93,9 @@ public final class JsonWriter
     if (val instanceof BStatusNumeric)
     {
       BStatusNumeric n = (BStatusNumeric)val;
-      out.print(n.getValue());
+      double d = n.getValue();
+      if (Double.isNaN(d)) out.print("\"na\"");
+      else out.print(d);
       return this;
     }
 

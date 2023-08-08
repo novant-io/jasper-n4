@@ -128,6 +128,7 @@ public final class BJasperServlet extends BWebServlet
     // request args
     HttpServletRequest req = op.getRequest();
     String prefix = reqArgStr(req, "path_prefix", null);
+    int maxPoints = reqArgInt(req, "max_points", Integer.MAX_VALUE);
 
     // response
     HttpServletResponse res = op.getResponse();
@@ -137,7 +138,7 @@ public final class BJasperServlet extends BWebServlet
     JsonWriter json = new JsonWriter(res.getOutputStream());
     json.write('{');
     json.writeKey("points").write('[');
-    for (int i=0; i<ids.length; i++)
+    for (int i=0; i<ids.length && num<maxPoints; i++)
     {
       JasperPoint p = index.get(ids[i]);
 
@@ -179,6 +180,7 @@ public final class BJasperServlet extends BWebServlet
     // request args
     HttpServletRequest req = op.getRequest();
     String prefix = reqArgStr(req, "path_prefix", null);
+    int maxPoints = reqArgInt(req, "max_points", Integer.MAX_VALUE);
 
     // response
     HttpServletResponse res = op.getResponse();
@@ -188,7 +190,7 @@ public final class BJasperServlet extends BWebServlet
     JsonWriter json = new JsonWriter(res.getOutputStream());
     json.write('{');
     json.writeKey("values").write('[');
-    for (int i=0; i<ids.length; i++)
+    for (int i=0; i<ids.length && num<maxPoints; i++)
     {
       JasperPoint p = index.get(ids[i]);
       Object val = null;

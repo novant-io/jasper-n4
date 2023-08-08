@@ -5,6 +5,7 @@
 * Fix to lease `BComponents` inside `/values` endpoint
 * Fix `JsonWriter` to wrap `NaN` as `"na"`
 * Add `status` field to `/values` endpoint
+* Add support for `max_args` arg on `/points` and `/values` endpoints
 
 ## Version 0.5 (13-Jul-2023)
 * Add support for `path_prefix` arg on `/points` and `/values` endpoints

@@ -11,6 +11,7 @@ package jasper.servlet;
 import java.io.*;
 import javax.baja.io.*;
 import javax.baja.naming.*;
+import javax.baja.status.*;
 import javax.baja.sys.*;
 import javax.baja.util.*;
 import javax.baja.web.*;
@@ -190,6 +191,8 @@ public final class BJasperServlet extends BWebServlet
     for (int i=0; i<ids.length; i++)
     {
       JasperPoint p = index.get(ids[i]);
+      Object val = null;
+      String status = "unknown";
 
       // skip if supplied path_prefix does not match
       if (prefix != null && !p.path.startsWith(prefix)) continue;
@@ -198,14 +201,20 @@ public final class BJasperServlet extends BWebServlet
       BOrd h = JasperUtil.getOrdFromId(p.addr);
       BComponent c = (BComponent)h.resolve(service).get();
       c.lease(1, leaseTime);
-      Object val = JasperUtil.getPointJsonValue(c);
+      BStatusValue pv = JasperUtil.getPointValue(c);
+      if (pv != null)
+      {
+        val = pv.getStatus().isValid() ? pv : "na";
+        status = pv.getStatus().flagsToString(null);
+      }
 
       // prefix trailing commas
       if (num > 0) json.write(',');
 
       json.write('{');
       json.writeKey("addr").writeVal(p.addr).write(',');
-      json.writeKey("val").writeVal(val);
+      json.writeKey("val").writeVal(val).write(',');
+      json.writeKey("status").writeVal(status);
       json.write('}');
       num++;
     }

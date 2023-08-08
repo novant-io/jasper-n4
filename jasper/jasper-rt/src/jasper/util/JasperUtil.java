@@ -84,24 +84,12 @@ public final class JasperUtil
   }
 
   /**
-   * Get the JSON representation for the current value
-   * of given point, or 'null' if not available.
+   * Get value of given point or 'null' if not available.
    */
-  public static Object getPointJsonValue(BComponent c)
+  public static BStatusValue getPointValue(BComponent c)
   {
     Object out = c.get("out");
-
-    if (out instanceof BStatusValue)
-    {
-      // if "na" if status not valid
-      BStatusValue val = (BStatusValue)out;
-      if (!val.getStatus().isValid()) return "na";
-
-      // return as BStatusValue and let JsonWriter encode
-      return val;
-    }
-
-    // if we get here then assume no value
+    if (out instanceof BStatusValue) return (BStatusValue)out;
     return null;
   }
 

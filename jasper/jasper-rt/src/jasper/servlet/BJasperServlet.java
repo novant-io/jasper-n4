@@ -126,7 +126,7 @@ public final class BJasperServlet extends BWebServlet
 
     // request args
     HttpServletRequest req = op.getRequest();
-    String prefix = req.getParameter("path_prefix");
+    String prefix = reqArgStr(req, "path_prefix", null);
 
     // response
     HttpServletResponse res = op.getResponse();
@@ -177,7 +177,7 @@ public final class BJasperServlet extends BWebServlet
 
     // request args
     HttpServletRequest req = op.getRequest();
-    String prefix = req.getParameter("path_prefix");
+    String prefix = reqArgStr(req, "path_prefix", null);
 
     // response
     HttpServletResponse res = op.getResponse();
@@ -212,6 +212,24 @@ public final class BJasperServlet extends BWebServlet
     json.write(']');
     json.write('}');
     json.flush().close();
+  }
+
+////////////////////////////////////////////////////////////////
+// Support
+////////////////////////////////////////////////////////////////
+
+  /** Get HTTP request argument as 'String' or return 'defVal' if not found. */
+  private String reqArgStr(HttpServletRequest req, String name, String defVal)
+  {
+    return req.getParameter(name);
+  }
+
+  /** Get HTTP request argument as 'int' or return 'defVal' if not found. */
+  private int reqArgInt(HttpServletRequest req, String name, int defVal)
+  {
+    String str = req.getParameter(name);
+    if (str == null) return defVal;
+    return Integer.parseInt(str);
   }
 
 ////////////////////////////////////////////////////////////////

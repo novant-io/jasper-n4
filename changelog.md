@@ -1,6 +1,8 @@
 # Changelog
 
-## Version 0.6 (working)
+## Version 0.7 (working)
+
+## Version 0.6 (8-Aug-2023)
 * Return additional debug info on errors during API requests
 * Fix to lease `BComponents` inside `/values` endpoint
 * Fix `JsonWriter` to wrap `NaN` as `"na"`

@@ -12,6 +12,7 @@ import java.io.*;
 import javax.baja.io.*;
 import javax.baja.control.*;
 import javax.baja.naming.*;
+import javax.baja.registry.*;
 import javax.baja.status.*;
 import javax.baja.sys.*;
 import javax.baja.util.*;
@@ -27,6 +28,25 @@ public final class JasperUtil
 ////////////////////////////////////////////////////////////////
 // BComponent
 ////////////////////////////////////////////////////////////////
+
+  /**
+   * Conveneince to check object type.
+   * */
+  public static boolean isType(BObject obj, TypeInfo info)
+  {
+    return obj.getType().getTypeInfo().is(info);
+  }
+
+  /**
+   * Get the Jasper point id for given point.
+   */
+  public static String getSourceId(BComponent c)
+  {
+    // strip h: from handle ord
+    String handle = c.getHandleOrd().toString();
+    String suffix = handle.substring(2);
+    return suffix;
+  }
 
   /**
    * Get the Jasper point id for given point.

@@ -21,6 +21,12 @@ public final class JasperIndex
   {
   }
 
+  /** Return number of sources in index. */
+  public int sourceSize()
+  {
+    return smap.size();
+  }
+
   /** Return number of points in index. */
   public int size()
   {
@@ -33,10 +39,28 @@ public final class JasperIndex
     map.clear();
   }
 
+  /** Add a new source to index. */
+  public void addSource(JasperSource s)
+  {
+    smap.put(s.addr, s);
+  }
+
+  /** Get source for given addr or null if not found. */
+  public JasperSource getSource(String addr)
+  {
+    return (JasperSource)smap.get(addr);
+  }
+
   /** Add a new point to index. */
   public void add(JasperPoint p)
   {
     map.put(p.addr, p);
+  }
+
+  /** Get list of sources in index. */
+  public Collection<JasperSource> getSources()
+  {
+    return smap.values();
   }
 
   /** Get current ids in index. */
@@ -54,5 +78,6 @@ public final class JasperIndex
     return (JasperPoint)map.get(addr);
   }
 
+  private HashMap smap = new HashMap();   // source_id:JasperSource
   private HashMap map = new HashMap();
 }

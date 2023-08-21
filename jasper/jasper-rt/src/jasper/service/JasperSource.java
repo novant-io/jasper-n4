@@ -3,7 +3,7 @@
 // Licensed under the MIT License
 //
 // History:
-//   19 Jan 2023  Andy Frank  Creation
+//   21 Aug 2023  Andy Frank  Creation
 //
 
 package jasper.service;
@@ -12,18 +12,16 @@ import java.util.*;
 import javax.baja.sys.*;
 
 /**
- * JasperPoint.
+ * JasperSource.
  */
-public final class JasperPoint
+public final class JasperSource
 {
   /** Constructor */
-  public JasperPoint(String addr, String name, String path, String enums, String unit)
+  public JasperSource(String addr, String name, String path)
   {
     this.addr  = addr;
     this.name  = name;
     this.path  = path;
-    this.enums = enums;
-    this.unit  = unit;
   }
 
   /** Unique address for this point. */
@@ -32,14 +30,8 @@ public final class JasperPoint
   /** Name of this point. */
   public final String name;
 
-  /** Path of this point. */
+  /** Path of this source. */
   public final String path;
-
-  /** Enum ordinal names for this point or null if not defined. */
-  public final String enums;
-
-  /** Unit for this point or null if not defined. */
-  public final String unit;
 
   public String toString() { return name; }
 }

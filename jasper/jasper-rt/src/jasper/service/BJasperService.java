@@ -12,6 +12,7 @@ package jasper.service;
 import javax.baja.log.*;
 import javax.baja.sys.*;
 import javax.baja.control.*;
+import javax.baja.registry.*;
 import jasper.servlet.*;
 import jasper.util.*;
 
@@ -125,6 +126,10 @@ public final class BJasperService extends BAbstractService
         BComponent c = comps[i];
         if (c instanceof BNumericPoint || c instanceof BBooleanPoint || c instanceof BEnumPoint)
         {
+          // verify has source
+          JasperSource source = getSource(c);
+          if (source == null) continue;
+
           String id    = JasperUtil.getPointId(c);
           String name  = JasperUtil.unescapeSlotPath(c.getName());
           String path  = JasperUtil.unescapeSlotPath(c.getSlotPath().toString().substring(5));
@@ -157,14 +162,68 @@ public final class BJasperService extends BAbstractService
       // complete
       BAbsTime t2 = BAbsTime.now();
       LOG.message("JasperReindexJob complete [" +
-        t1.delta(t2) + ", " + index.size() + " points]");
+        t1.delta(t2) + ", " +
+        index.sourceSize() + " sources, " +
+        index.size() + " points]");
     }
     catch (Exception e) { e.printStackTrace(); }
   }
 
 ////////////////////////////////////////////////////////////////
+// Sources
+////////////////////////////////////////////////////////////////
+
+  /**
+   * Get parent source for given point.
+   */
+  private JasperSource getSource(BComponent point)
+  {
+    // sanity check
+    BComponent c = (BComponent)point.getParent();
+    if (c == null) return null;
+
+    // check if there is a better parent sourc
+    c = findSourceComp(c);
+
+    // check cache
+    String addr = JasperUtil.getSourceId(c);
+    JasperSource source = index.getSource(addr);
+
+    // add to cache if not found
+    if (source == null)
+    {
+      String name  = JasperUtil.unescapeSlotPath(c.getName());
+      String path  = JasperUtil.unescapeSlotPath(c.getSlotPath().toString().substring(5));
+      source = new JasperSource(addr, name, path);
+      index.addSource(source);
+    }
+
+    return source;
+  }
+
+  /**
+   * Find "best" source component to use as parent source
+   * */
+  private BComponent findSourceComp(BComponent orig)
+  {
+    // never walk if no parent
+    BComplex p = orig.getParent();
+    if (p == null) return orig;
+
+    // walk up to proxy device if we are directly under point proxy folder
+    if (JasperUtil.isType(orig, TYPE_PDX) && JasperUtil.isType(p, TYPE_DEV))
+        return (BComponent)p;
+
+    // stick with orig
+    return orig;
+  }
+
+////////////////////////////////////////////////////////////////
 // Attributes
 ////////////////////////////////////////////////////////////////
+
+  private static final TypeInfo TYPE_PDX = Sys.getRegistry().getType("driver:PointDeviceExt");
+  private static final TypeInfo TYPE_DEV = Sys.getRegistry().getType("driver:Device");
 
   static final Log LOG = Log.getLog("jasper");
 

@@ -9,6 +9,7 @@
 package jasper.servlet;
 
 import java.io.*;
+import java.util.*;
 import javax.baja.io.*;
 import javax.baja.naming.*;
 import javax.baja.status.*;
@@ -131,16 +132,33 @@ public final class BJasperServlet extends BWebServlet
  /** Service /v1/sources request. */
   private void doSources(WebOp op) throws IOException
   {
+    // response
     HttpServletResponse res = op.getResponse();
     res.setStatus(200);
     res.setHeader("Content-Type", "application/json");
 
-    // TODO: watch trailing comma bugs; should JsonWriter handle internally?
     JsonWriter json = new JsonWriter(res.getOutputStream());
     json.write('{');
+    json.writeKey("sources").write('[');
 
-    // TODO FIXIT
+    Iterator<JasperSource> iter = index.getSources().iterator();
+    int num = 0;
 
+    while (iter.hasNext())
+    {
+      JasperSource s = iter.next();
+
+      // prefix trailing commas
+      if (num > 0) json.write(',');
+
+      json.write('{');
+      json.writeKey("addr").writeVal(s.addr).write(',');
+      json.writeKey("name").writeVal(s.name).write(',');
+      json.writeKey("path").writeVal(s.path);
+      json.write('}');
+      num++;
+    }
+    json.write(']');
     json.write('}');
     json.flush().close();
   }

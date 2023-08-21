@@ -12,8 +12,10 @@ import java.io.*;
 import java.util.*;
 
 import javax.baja.nre.annotations.*;
+import javax.baja.registry.*;
 import javax.baja.sys.*;
 import javax.baja.test.BTestNg;
+import javax.baja.util.*;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
@@ -41,6 +43,31 @@ public static final Type TYPE = Sys.loadType(BJasperUtilTest.class);
 
   @BeforeMethod public void beforeMethod() {}
   @AfterMethod public void afterMethod() {}
+
+////////////////////////////////////////////////////////////////
+// testIsType
+////////////////////////////////////////////////////////////////
+
+  @Test public void testIsType() throws IOException
+  {
+    Registry reg = Sys.getRegistry();
+    TypeInfo typeObj      = reg.getType("baja:Object");
+    TypeInfo typeComplex  = reg.getType("baja:Complex");
+    TypeInfo typeComp     = reg.getType("baja:Component");
+    TypeInfo typeFolder   = reg.getType("baja:Folder");
+
+    BFolder f = new BFolder();
+    verifyEq(JasperUtil.isType(f, typeFolder),  true);
+    verifyEq(JasperUtil.isType(f, typeComp),    true);
+    verifyEq(JasperUtil.isType(f, typeComplex), true);
+    verifyEq(JasperUtil.isType(f, typeObj),     true);
+
+    BComponent c = new BComponent();
+    verifyEq(JasperUtil.isType(c, typeFolder),  false);
+    verifyEq(JasperUtil.isType(c, typeComp),    true);
+    verifyEq(JasperUtil.isType(c, typeComplex), true);
+    verifyEq(JasperUtil.isType(c, typeObj),     true);
+  }
 
 ////////////////////////////////////////////////////////////////
 // testUnescapeSlotPath

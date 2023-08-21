@@ -78,9 +78,10 @@ public final class BJasperServlet extends BWebServlet
       // key off version
       if (path[0].equals("v1"))
       {
-        if (path[1].equals("about"))  { doAbout(op);  return; }
-        if (path[1].equals("points")) { doPoints(op); return; }
-        if (path[1].equals("values")) { doValues(op); return; }
+        if (path[1].equals("about"))   { doAbout(op);   return; }
+        if (path[1].equals("sources")) { doSources(op); return; }
+        if (path[1].equals("points"))  { doPoints(op);  return; }
+        if (path[1].equals("values"))  { doValues(op);  return; }
       }
 
       // if we get here then 404
@@ -92,6 +93,10 @@ public final class BJasperServlet extends BWebServlet
       JasperUtil.sendErr(op, 500, "Unexpected error", ex);
     }
   }
+
+////////////////////////////////////////////////////////////////
+// Endpoint /about
+////////////////////////////////////////////////////////////////
 
   /** Service /v1/about request. */
   private void doAbout(WebOp op) throws IOException
@@ -118,6 +123,31 @@ public final class BJasperServlet extends BWebServlet
     json.write('}');
     json.flush().close();
   }
+
+////////////////////////////////////////////////////////////////
+// Endpoint /sources
+////////////////////////////////////////////////////////////////
+
+ /** Service /v1/sources request. */
+  private void doSources(WebOp op) throws IOException
+  {
+    HttpServletResponse res = op.getResponse();
+    res.setStatus(200);
+    res.setHeader("Content-Type", "application/json");
+
+    // TODO: watch trailing comma bugs; should JsonWriter handle internally?
+    JsonWriter json = new JsonWriter(res.getOutputStream());
+    json.write('{');
+
+    // TODO FIXIT
+
+    json.write('}');
+    json.flush().close();
+  }
+
+////////////////////////////////////////////////////////////////
+// Endpoint /points
+////////////////////////////////////////////////////////////////
 
   /** Service /v1/points request. */
   private void doPoints(WebOp op) throws IOException
@@ -169,6 +199,10 @@ public final class BJasperServlet extends BWebServlet
     json.write('}');
     json.flush().close();
   }
+
+////////////////////////////////////////////////////////////////
+// Endpoint /values
+////////////////////////////////////////////////////////////////
 
   /** Service /v1/values request. */
   private void doValues(WebOp op) throws IOException

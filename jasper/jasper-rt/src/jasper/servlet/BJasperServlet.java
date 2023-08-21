@@ -152,7 +152,7 @@ public final class BJasperServlet extends BWebServlet
       if (num > 0) json.write(',');
 
       json.write('{');
-      json.writeKey("addr").writeVal(s.addr).write(',');
+      json.writeKey("id").writeVal(s.id).write(',');
       json.writeKey("name").writeVal(s.name).write(',');
       json.writeKey("path").writeVal(s.path);
       json.write('}');

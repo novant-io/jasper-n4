@@ -17,17 +17,17 @@ import javax.baja.sys.*;
 public final class JasperSource
 {
   /** Constructor */
-  public JasperSource(String addr, String name, String path)
+  public JasperSource(String id, String name, String path)
   {
-    this.addr  = addr;
-    this.name  = name;
-    this.path  = path;
+    this.id   = id;
+    this.name = name;
+    this.path = path;
   }
 
-  /** Unique address for this point. */
-  public final String addr;
+  /** Unique id for this source. */
+  public final String id;
 
-  /** Name of this point. */
+  /** Name of this source. */
   public final String name;
 
   /** Path of this source. */

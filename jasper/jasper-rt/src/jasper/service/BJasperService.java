@@ -130,7 +130,7 @@ public final class BJasperService extends BAbstractService
           JasperSource source = getSource(c);
           if (source == null) continue;
 
-          String id    = JasperUtil.getPointId(c);
+          String addr  = JasperUtil.getPointAddr(c);
           String name  = JasperUtil.unescapeSlotPath(c.getName());
           String path  = JasperUtil.unescapeSlotPath(c.getSlotPath().toString().substring(5));
           String unit  = null;
@@ -151,7 +151,7 @@ public final class BJasperService extends BAbstractService
             }
           }
 
-          JasperPoint point = new JasperPoint(id, name, path, enums, unit);
+          JasperPoint point = new JasperPoint(addr, name, path, enums, unit);
           index.add(point);
         }
       }
@@ -182,19 +182,24 @@ public final class BJasperService extends BAbstractService
     BComponent c = (BComponent)point.getParent();
     if (c == null) return null;
 
-    // check if there is a better parent sourc
+    // check if there is a better parent source
     c = findSourceComp(c);
 
     // check cache
-    String addr = JasperUtil.getSourceId(c);
-    JasperSource source = index.getSource(addr);
+    String id = JasperUtil.getSourceId(c);
+    JasperSource source = index.getSource(id);
 
     // add to cache if not found
     if (source == null)
     {
       String name  = JasperUtil.unescapeSlotPath(c.getName());
       String path  = JasperUtil.unescapeSlotPath(c.getSlotPath().toString().substring(5));
-      source = new JasperSource(addr, name, path);
+
+      // filter out common stuff we likley never want
+      if (path.startsWith("/Services/SecurityService/")) return null;
+
+      // index source
+      source = new JasperSource(id, name, path);
       index.addSource(source);
     }
 

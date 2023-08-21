@@ -45,13 +45,13 @@ public final class JasperUtil
     // strip h: from handle ord
     String handle = c.getHandleOrd().toString();
     String suffix = handle.substring(2);
-    return suffix;
+    return "s." + suffix;
   }
 
   /**
-   * Get the Jasper point id for given point.
+   * Get the Jasper point addr for given point.
    */
-  public static String getPointId(BComponent c)
+  public static String getPointAddr(BComponent c)
   {
     // strip h: from handle ord
     String handle = c.getHandleOrd().toString();

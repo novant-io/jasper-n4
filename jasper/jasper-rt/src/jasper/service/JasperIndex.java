@@ -42,13 +42,13 @@ public final class JasperIndex
   /** Add a new source to index. */
   public void addSource(JasperSource s)
   {
-    smap.put(s.addr, s);
+    smap.put(s.id, s);
   }
 
   /** Get source for given addr or null if not found. */
-  public JasperSource getSource(String addr)
+  public JasperSource getSource(String id)
   {
-    return (JasperSource)smap.get(addr);
+    return (JasperSource)smap.get(id);
   }
 
   /** Add a new point to index. */

@@ -170,7 +170,7 @@ public final class BJasperServlet extends BWebServlet
   /** Service /v1/points request. */
   private void doPoints(WebOp op) throws IOException
   {
-    String[] ids = index.ids();
+    String[] addrs = index.pointAddrs();
     int num = 0;
 
     // request args
@@ -186,9 +186,9 @@ public final class BJasperServlet extends BWebServlet
     JsonWriter json = new JsonWriter(res.getOutputStream());
     json.write('{');
     json.writeKey("points").write('[');
-    for (int i=0; i<ids.length && num<maxPoints; i++)
+    for (int i=0; i<addrs.length && num<maxPoints; i++)
     {
-      JasperPoint p = index.get(ids[i]);
+      JasperPoint p = index.getPoint(addrs[i]);
 
       // skip if supplied path_prefix does not match
       if (prefix != null && !p.path.startsWith(prefix)) continue;
@@ -226,7 +226,7 @@ public final class BJasperServlet extends BWebServlet
   private void doValues(WebOp op) throws IOException
   {
     BJasperService service = (BJasperService)this.getParent();
-    String[] ids = index.ids();
+    String[] addrs = index.pointAddrs();
     int num = 0;
 
     // request args
@@ -242,9 +242,9 @@ public final class BJasperServlet extends BWebServlet
     JsonWriter json = new JsonWriter(res.getOutputStream());
     json.write('{');
     json.writeKey("values").write('[');
-    for (int i=0; i<ids.length && num<maxPoints; i++)
+    for (int i=0; i<addrs.length && num<maxPoints; i++)
     {
-      JasperPoint p = index.get(ids[i]);
+      JasperPoint p = index.getPoint(addrs[i]);
       Object val = null;
       String status = "unknown";
 

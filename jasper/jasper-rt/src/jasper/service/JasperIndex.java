@@ -21,28 +21,37 @@ public final class JasperIndex
   {
   }
 
-  /** Return number of sources in index. */
-  public int sourceSize()
-  {
-    return smap.size();
-  }
-
-  /** Return number of points in index. */
-  public int size()
-  {
-    return map.size();
-  }
+////////////////////////////////////////////////////////////////
+// Package-Private
+////////////////////////////////////////////////////////////////
 
   /** Clear all entries from index. */
-  public void clear()
+  void clear()
   {
-    map.clear();
+    smap.clear();
+    pmap.clear();
   }
 
   /** Add a new source to index. */
-  public void addSource(JasperSource s)
+  void addSource(JasperSource s)
   {
     smap.put(s.id, s);
+  }
+
+  /** Add a new point to index. */
+  void addPoint(JasperPoint p)
+  {
+    pmap.put(p.addr, p);
+  }
+
+////////////////////////////////////////////////////////////////
+// Sources
+////////////////////////////////////////////////////////////////
+
+  /** Return number of sources in index. */
+  public int numSources()
+  {
+    return smap.size();
   }
 
   /** Get source for given addr or null if not found. */
@@ -51,33 +60,41 @@ public final class JasperIndex
     return (JasperSource)smap.get(id);
   }
 
-  /** Add a new point to index. */
-  public void add(JasperPoint p)
-  {
-    map.put(p.addr, p);
-  }
-
   /** Get list of sources in index. */
   public Collection<JasperSource> getSources()
   {
     return smap.values();
   }
 
-  /** Get current ids in index. */
-  public String[] ids()
+////////////////////////////////////////////////////////////////
+// Points
+////////////////////////////////////////////////////////////////
+
+  /** Return number of points in index. */
+  public int numPoints()
+  {
+    return pmap.size();
+  }
+
+  /** Get the point for given addr or null if not found. */
+  public JasperPoint getPoint(String addr)
+  {
+    return (JasperPoint)pmap.get(addr);
+  }
+
+  /** Get list of point addrs in index. */
+  public String[] pointAddrs()
   {
     // TODO: should we cache this?
-    Set keys = map.keySet();
+    Set keys = pmap.keySet();
     String[] acc = (String[])keys.toArray(new String[keys.size()]);
     return acc;
   }
 
-  /** Get the point for given addr or null if not found. */
-  public JasperPoint get(String addr)
-  {
-    return (JasperPoint)map.get(addr);
-  }
+////////////////////////////////////////////////////////////////
+// Attributes
+////////////////////////////////////////////////////////////////
 
-  private HashMap smap = new HashMap();   // source_id:JasperSource
-  private HashMap map = new HashMap();
+  private HashMap smap = new HashMap();   // source.id  : JasperSource
+  private HashMap pmap = new HashMap();   // point.addr : JasperPoint
 }

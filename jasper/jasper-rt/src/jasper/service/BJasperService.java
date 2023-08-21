@@ -152,7 +152,7 @@ public final class BJasperService extends BAbstractService
           }
 
           JasperPoint point = new JasperPoint(addr, name, path, enums, unit);
-          index.add(point);
+          index.addPoint(point);
         }
       }
 
@@ -163,8 +163,8 @@ public final class BJasperService extends BAbstractService
       BAbsTime t2 = BAbsTime.now();
       LOG.message("JasperReindexJob complete [" +
         t1.delta(t2) + ", " +
-        index.sourceSize() + " sources, " +
-        index.size() + " points]");
+        index.numSources() + " sources, " +
+        index.numPoints() + " points]");
     }
     catch (Exception e) { e.printStackTrace(); }
   }

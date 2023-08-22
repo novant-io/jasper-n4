@@ -37,7 +37,7 @@ To setup Jasper on your JACE:
 
 ### About
 
-    $ curl host/jasper/v1/about -u username:password
+    $ curl host/jasper/v1/about -XPOST -u username:password
 
     {
       "name": "demo",
@@ -45,50 +45,80 @@ To setup Jasper on your JACE:
       "model": "Niagara 4",
       "version": "4.12.0.156",
       "moduleName": "jasper",
-      "moduleVersion": "0.4"
+      "moduleVersion": "0.7"
+    }
+
+### Sources
+
+    $ curl host/jasper/v1/sources -XPOST -u username:password
+
+    {
+      "sources": [
+        {
+          "id":   "54d",
+          "name": "Chiller",
+          "path": "/Drivers/NiagaraNetwork/JACE-02/points/Chiller",
+        },
+        {
+          "id":   "620",
+          "name": "SetpointTemp",
+          "path": "/Drivers/NiagaraNetwork/JACE-05/points/VAV-1",
+        },
+        {
+          "id":   "621",
+          "name": "SetpointTemp",
+          "path": "/Drivers/NiagaraNetwork/JACE-05/points/VAV-2",
+        },
+        {
+          "id":   "622",
+          "name": "SetpointTemp",
+          "path": "/Drivers/NiagaraNetwork/JACE-05/points/VAV-3",
+        }
+      ]
     }
 
 ### Points
 
-    $ curl host/jasper/v1/points -u username:password
+    $ curl host/jasper/v1/points -XPOST -d source_id:620 -u username:password
 
     {
       "points": [
         {
-          "addr": "av.1b6b",
-          "name": "SetpointTemp",
+          "addr": "av.DamperPosition",
+          "name": "Damper Position"
+        },
+        {
+          "addr": "bv.",
+          "name": "Fan Status"
+        },
+        {
+          "addr": "av.ZoneTemp",
+          "name": "Zone Temp"
           "unit": "°F"
-          "path": "/PxHome/Graphics/Campus/Building/Floor1/VavZoneC/SetpointTemp",
         },
         {
-          "addr": "bv.1b75",
-          "name": "FanStatus",
-          "path": "/PxHome/Graphics/Campus/Building/Floor1/VavZoneC/FanStatus"
+          "addr": "ao.ReturnTemp",
+          "name": "Return Temp"
+          "unit": "°F"
         },
         {
-          "addr": "av.1b6d",
-          "name": "HeatingCoil",
-          "unit": "%"
-          "path": "/PxHome/Graphics/Campus/Building/Floor1/VavZoneC/HeatingCoil",
-        },
-        {
-          "addr": "eo.1b83",
-          "name": "OccStatus",
-          "enum": "occupied,unoccupied"
-          "path": "/PxHome/Graphics/Campus/Building/Floor1/OccStatus",
+          "addr": "ao.DischargeTemp",
+          "name": "Discharge Temp"
+          "unit": "°F"
         }
       ]
     }
 
 ### Values
 
-    $ curl host/jasper/v1/values -u username:password
+    $ curl host/jasper/v1/values -XPOST -d source_id:620  -u username:password
 
     {
       "values": [
-        { "addr":"av.1b6b", "val":72 },
-        { "addr":"bv.1b75", "val":1 },
-        { "addr":"av.1b6d", "val":25 }
-        { "addr":"eo.1b83", "val":1 }
+        { "addr":"av.DamperPosition", "val":72.0    },
+        { "addr":"bv.FanStatus",      "val":1       },
+        { "addr":"av.ZoneTemp",       "val":72.0    },
+        { "addr":"ao.ReturnTemp",     "val":73.142  },
+        { "addr":"ao.DischargeTemp",  "val":68.230  }
       ]
     }

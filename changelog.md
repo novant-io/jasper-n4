@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.7 (working)
+## Version 0.7 (22-Aug-2023)
 * New `/sources` endpoint with nested points design
 * Change point `addr` to use relative paths
 * Bump point lease time to `2min`

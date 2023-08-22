@@ -130,3 +130,14 @@ To rebuild the index, right click on the `JasperService` and invoke the
         { "addr":"ao.DischargeTemp",  "val":68.230  }
       ]
     }
+
+## How are Sources defined?
+
+Sources are automatically created when the `JasperService` indexes the station.
+
+A source is the parent `BComponent` of any control point. Sibling points are
+grouped together under their shared parent component.
+
+For proxy points that are ungrouped under a driver network, where the direct
+parent would be `"Points"`, the indexer will walk up one level and use the
+`BDevice` as the parent source.

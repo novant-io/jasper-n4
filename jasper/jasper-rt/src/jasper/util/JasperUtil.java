@@ -45,7 +45,7 @@ public final class JasperUtil
     // strip h: from handle ord
     String handle = c.getHandleOrd().toString();
     String suffix = handle.substring(2);
-    return "s." + suffix;
+    return suffix;
   }
 
   /**

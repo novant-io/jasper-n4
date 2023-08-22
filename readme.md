@@ -69,17 +69,17 @@ To rebuild the index, right click on the `JasperService` and invoke the
         },
         {
           "id":   "620",
-          "name": "SetpointTemp",
+          "name": "VAV-1",
           "path": "/Drivers/NiagaraNetwork/JACE-05/points/VAV-1",
         },
         {
           "id":   "621",
-          "name": "SetpointTemp",
+          "name": "VAV-2",
           "path": "/Drivers/NiagaraNetwork/JACE-05/points/VAV-2",
         },
         {
           "id":   "622",
-          "name": "SetpointTemp",
+          "name": "VAV-3",
           "path": "/Drivers/NiagaraNetwork/JACE-05/points/VAV-3",
         }
       ]

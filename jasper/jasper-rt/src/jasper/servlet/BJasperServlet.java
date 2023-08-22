@@ -245,11 +245,11 @@ public final class BJasperServlet extends BWebServlet
       Object val = null;
       String status = "unknown";
 
+      // bump lease time
+      p.comp.lease(1, leaseTime);
+
       // get point value
-      BOrd h = JasperUtil.getOrdFromId(p.addr);
-      BComponent c = (BComponent)h.resolve(service).get();
-      c.lease(1, leaseTime);
-      BStatusValue pv = JasperUtil.getPointValue(c);
+      BStatusValue pv = JasperUtil.getPointValue(p.comp);
       if (pv != null)
       {
         val = pv.getStatus().isValid() ? pv : "na";

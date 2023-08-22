@@ -39,6 +39,8 @@ public final class JasperPoint
 
   public String toString() { return name; }
 
+// TODO FIXIT: cleanup encapsulation here (and JasperSource)
   // package private: backing comp
-  BComponent comp;
+  //BComponent comp;
+  public BComponent comp;
 }

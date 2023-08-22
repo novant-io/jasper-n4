@@ -170,13 +170,11 @@ public final class BJasperServlet extends BWebServlet
   /** Service /v1/points request. */
   private void doPoints(WebOp op) throws IOException
   {
-    String[] addrs = index.pointAddrs();
-    int num = 0;
-
     // request args
     HttpServletRequest req = op.getRequest();
-    String prefix = reqArgStr(req, "path_prefix", null);
-    int maxPoints = reqArgInt(req, "max_points", Integer.MAX_VALUE);
+    String sourceId = reqArgStr(req, "source_id");
+    JasperSource source = index.getSource(sourceId);
+    if (source == null) { JasperUtil.sendNotFound(op); return; }
 
     // response
     HttpServletResponse res = op.getResponse();
@@ -186,12 +184,11 @@ public final class BJasperServlet extends BWebServlet
     JsonWriter json = new JsonWriter(res.getOutputStream());
     json.write('{');
     json.writeKey("points").write('[');
-    for (int i=0; i<addrs.length && num<maxPoints; i++)
+    Iterator<JasperPoint> iter = source.getPoints().iterator();
+    int num = 0;
+    while (iter.hasNext())
     {
-      JasperPoint p = index.getPoint(addrs[i]);
-
-      // skip if supplied path_prefix does not match
-      if (prefix != null && !p.path.startsWith(prefix)) continue;
+      JasperPoint p = iter.next();
 
       // prefix trailing commas
       if (num > 0) json.write(',');
@@ -226,13 +223,12 @@ public final class BJasperServlet extends BWebServlet
   private void doValues(WebOp op) throws IOException
   {
     BJasperService service = (BJasperService)this.getParent();
-    String[] addrs = index.pointAddrs();
-    int num = 0;
 
     // request args
     HttpServletRequest req = op.getRequest();
-    String prefix = reqArgStr(req, "path_prefix", null);
-    int maxPoints = reqArgInt(req, "max_points", Integer.MAX_VALUE);
+    String sourceId = reqArgStr(req, "source_id");
+    JasperSource source = index.getSource(sourceId);
+    if (source == null) { JasperUtil.sendNotFound(op); return; }
 
     // response
     HttpServletResponse res = op.getResponse();
@@ -242,14 +238,13 @@ public final class BJasperServlet extends BWebServlet
     JsonWriter json = new JsonWriter(res.getOutputStream());
     json.write('{');
     json.writeKey("values").write('[');
-    for (int i=0; i<addrs.length && num<maxPoints; i++)
+    Iterator<JasperPoint> iter = source.getPoints().iterator();
+    int num = 0;
+    while (iter.hasNext())
     {
-      JasperPoint p = index.getPoint(addrs[i]);
+      JasperPoint p = iter.next();
       Object val = null;
       String status = "unknown";
-
-      // skip if supplied path_prefix does not match
-      if (prefix != null && !p.path.startsWith(prefix)) continue;
 
       // get point value
       BOrd h = JasperUtil.getOrdFromId(p.addr);
@@ -282,17 +277,26 @@ public final class BJasperServlet extends BWebServlet
 ////////////////////////////////////////////////////////////////
 
   /** Get HTTP request argument as 'String' or return 'defVal' if not found. */
-  private String reqArgStr(HttpServletRequest req, String name, String defVal)
+  private String reqArgStr(HttpServletRequest req, String name)
   {
-    return req.getParameter(name);
+    String val = req.getParameter(name);
+    if (val == null) throw new IllegalArgumentException("Missing required '" + name + "' param");
+    return val;
   }
 
   /** Get HTTP request argument as 'int' or return 'defVal' if not found. */
-  private int reqArgInt(HttpServletRequest req, String name, int defVal)
+  private int reqArgInt(HttpServletRequest req, String name)
   {
-    String str = req.getParameter(name);
-    if (str == null) return defVal;
-    return Integer.parseInt(str);
+    String val = reqArgStr(req, name);
+    return Integer.parseInt(val);
+  }
+
+  /** Get HTTP request argument as 'String' or return 'defVal' if not found. */
+  private String optArgStr(HttpServletRequest req, String name, String defVal)
+  {
+    String val = req.getParameter(name);
+    if (val == null) val = defVal;
+    return val;
   }
 
 ////////////////////////////////////////////////////////////////
@@ -300,5 +304,5 @@ public final class BJasperServlet extends BWebServlet
 ////////////////////////////////////////////////////////////////
 
   private JasperIndex index;
-  private final long leaseTime = 60000;   // 1min in millis
+  private final long leaseTime = 120000;   // 2min in millis
 }

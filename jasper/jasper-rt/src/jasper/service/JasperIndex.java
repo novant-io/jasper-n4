@@ -22,29 +22,6 @@ public final class JasperIndex
   }
 
 ////////////////////////////////////////////////////////////////
-// Package-Private
-////////////////////////////////////////////////////////////////
-
-  /** Clear all entries from index. */
-  void clear()
-  {
-    smap.clear();
-    pmap.clear();
-  }
-
-  /** Add a new source to index. */
-  void addSource(JasperSource s)
-  {
-    smap.put(s.id, s);
-  }
-
-  /** Add a new point to index. */
-  void addPoint(JasperPoint p)
-  {
-    pmap.put(p.addr, p);
-  }
-
-////////////////////////////////////////////////////////////////
 // Sources
 ////////////////////////////////////////////////////////////////
 
@@ -67,34 +44,24 @@ public final class JasperIndex
   }
 
 ////////////////////////////////////////////////////////////////
-// Points
+// Package-Private
 ////////////////////////////////////////////////////////////////
 
-  /** Return number of points in index. */
-  public int numPoints()
+  /** Clear all entries from index. */
+  void clear()
   {
-    return pmap.size();
+    smap.clear();
   }
 
-  /** Get the point for given addr or null if not found. */
-  public JasperPoint getPoint(String addr)
+  /** Add a new source to index. */
+  void addSource(JasperSource s)
   {
-    return (JasperPoint)pmap.get(addr);
-  }
-
-  /** Get list of point addrs in index. */
-  public String[] pointAddrs()
-  {
-    // TODO: should we cache this?
-    Set keys = pmap.keySet();
-    String[] acc = (String[])keys.toArray(new String[keys.size()]);
-    return acc;
+    smap.put(s.id, s);
   }
 
 ////////////////////////////////////////////////////////////////
 // Attributes
 ////////////////////////////////////////////////////////////////
 
-  private HashMap smap = new HashMap();   // source.id  : JasperSource
-  private HashMap pmap = new HashMap();   // point.addr : JasperPoint
+  private HashMap smap = new HashMap();   // source.id : JasperSource
 }

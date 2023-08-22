@@ -33,5 +33,13 @@ public final class JasperSource
   /** Path of this source. */
   public final String path;
 
+  /** Get point list for this source. */
+  public Collection<JasperPoint> getPoints() { return pmap.values(); }
+
   public String toString() { return name; }
+
+  // package private
+  void addPoint(JasperPoint p) { pmap.put(p.addr, p); }
+
+  private HashMap pmap = new HashMap();
 }

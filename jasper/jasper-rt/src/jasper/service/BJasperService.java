@@ -114,6 +114,7 @@ public final class BJasperService extends BAbstractService
       // start
       LOG.message("JasperReindexJob started");
       BAbsTime t1 = BAbsTime.now();
+      int numPoints = 0;
 
       // clear index
       index.clear();
@@ -152,7 +153,8 @@ public final class BJasperService extends BAbstractService
           }
 
           JasperPoint point = new JasperPoint(addr, name, path, enums, unit);
-          index.addPoint(point);
+          source.addPoint(point);
+          numPoints++;
         }
       }
 
@@ -164,7 +166,7 @@ public final class BJasperService extends BAbstractService
       LOG.message("JasperReindexJob complete [" +
         t1.delta(t2) + ", " +
         index.numSources() + " sources, " +
-        index.numPoints() + " points]");
+        numPoints + " points]");
     }
     catch (Exception e) { e.printStackTrace(); }
   }

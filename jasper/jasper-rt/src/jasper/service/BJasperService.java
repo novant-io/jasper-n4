@@ -219,7 +219,7 @@ public final class BJasperService extends BAbstractService
     if (p == null) return orig;
 
     // walk up to proxy device if we are directly under point proxy folder
-    if (JasperUtil.isType(orig, TYPE_PDX) && JasperUtil.isType(p, TYPE_DEV))
+    if (JasperUtil.isType(orig, "driver:PointDeviceExt") && JasperUtil.isType(p, "driver:Device"))
         return (BComponent)p;
 
     // stick with orig
@@ -229,9 +229,6 @@ public final class BJasperService extends BAbstractService
 ////////////////////////////////////////////////////////////////
 // Attributes
 ////////////////////////////////////////////////////////////////
-
-  private static final TypeInfo TYPE_PDX = Sys.getRegistry().getType("driver:PointDeviceExt");
-  private static final TypeInfo TYPE_DEV = Sys.getRegistry().getType("driver:Device");
 
   static final Log LOG = Log.getLog("jasper");
 

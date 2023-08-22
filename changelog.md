@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version 0.8 (working)
+* Fix point type assignment of writable points
 
 ## Version 0.7 (22-Aug-2023)
 * New `/sources` endpoint with nested points design

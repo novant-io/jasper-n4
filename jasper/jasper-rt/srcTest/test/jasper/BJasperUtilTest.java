@@ -50,23 +50,17 @@ public static final Type TYPE = Sys.loadType(BJasperUtilTest.class);
 
   @Test public void testIsType() throws IOException
   {
-    Registry reg = Sys.getRegistry();
-    TypeInfo typeObj      = reg.getType("baja:Object");
-    TypeInfo typeComplex  = reg.getType("baja:Complex");
-    TypeInfo typeComp     = reg.getType("baja:Component");
-    TypeInfo typeFolder   = reg.getType("baja:Folder");
-
     BFolder f = new BFolder();
-    verifyEq(JasperUtil.isType(f, typeFolder),  true);
-    verifyEq(JasperUtil.isType(f, typeComp),    true);
-    verifyEq(JasperUtil.isType(f, typeComplex), true);
-    verifyEq(JasperUtil.isType(f, typeObj),     true);
+    verifyEq(JasperUtil.isType(f, "baja:Folder"),    true);
+    verifyEq(JasperUtil.isType(f, "baja:Component"), true);
+    verifyEq(JasperUtil.isType(f, "baja:Complex"),   true);
+    verifyEq(JasperUtil.isType(f, "baja:Object"),    true);
 
     BComponent c = new BComponent();
-    verifyEq(JasperUtil.isType(c, typeFolder),  false);
-    verifyEq(JasperUtil.isType(c, typeComp),    true);
-    verifyEq(JasperUtil.isType(c, typeComplex), true);
-    verifyEq(JasperUtil.isType(c, typeObj),     true);
+    verifyEq(JasperUtil.isType(c, "baja:Folder"),    false);
+    verifyEq(JasperUtil.isType(c, "baja:Component"), true);
+    verifyEq(JasperUtil.isType(c, "baja:Complex"),   true);
+    verifyEq(JasperUtil.isType(c, "baja:Object"),    true);
   }
 
 ////////////////////////////////////////////////////////////////

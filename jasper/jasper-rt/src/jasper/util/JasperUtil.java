@@ -33,8 +33,9 @@ public final class JasperUtil
   /**
    * Conveneince to check object type.
    * */
-  public static boolean isType(BObject obj, TypeInfo info)
+  public static boolean isType(BObject obj, String type)
   {
+    TypeInfo info = Sys.getRegistry().getType(type);
     return obj.getType().getTypeInfo().is(info);
   }
 
@@ -63,12 +64,12 @@ public final class JasperUtil
     suffix = JasperUtil.slotPathToSuffix(suffix);
 
     // point type
-    if (c instanceof BNumericWritable) return "av." + suffix;
-    if (c instanceof BNumericPoint)    return "ai." + suffix;
-    if (c instanceof BBooleanWritable) return "bv." + suffix;
-    if (c instanceof BBooleanPoint)    return "bi." + suffix;
-    if (c instanceof BEnumWritable)    return "ev." + suffix;
-    if (c instanceof BEnumPoint)       return "ei." + suffix;
+    if (isType(c, "control:NumericWritable")) return "av." + suffix;
+    if (isType(c, "control:NumericPoint"))    return "ao." + suffix;
+    if (isType(c, "control:BooleanWritable")) return "bv." + suffix;
+    if (isType(c, "control:BooleanPoint"))    return "bo." + suffix;
+    if (isType(c, "control:EnumWritable"))    return "ev." + suffix;
+    if (isType(c, "control:EnumPoint"))       return "eo." + suffix;
 
     // unsupported type
     throw new RuntimeException("Unsupported point type '" + c.getName() + "'");

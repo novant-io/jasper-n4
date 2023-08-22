@@ -93,6 +93,30 @@ public static final Type TYPE = Sys.loadType(BJasperUtilTest.class);
   }
 
 ////////////////////////////////////////////////////////////////
+// testSlotPathToSuffix
+////////////////////////////////////////////////////////////////
+
+  @Test public void testSlotPathToSuffix() throws IOException
+  {
+    verifyEq(JasperUtil.slotPathToSuffix(""), "");
+    verifyEq(JasperUtil.slotPathToSuffix("Foo"), "Foo");
+    verifyEq(JasperUtil.slotPathToSuffix("Foo/Bar"), "Foo.Bar");
+    verifyEq(JasperUtil.slotPathToSuffix("Foo/Bar/Car"), "Foo.Bar.Car");
+
+    verifyEq(JasperUtil.slotPathToSuffix("Foo$205"),   "Foo5");
+    verifyEq(JasperUtil.slotPathToSuffix("Foo$2dBar"), "FooBar");
+    verifyEq(JasperUtil.slotPathToSuffix("Foo$24Bar"), "FooBar");
+    verifyEq(JasperUtil.slotPathToSuffix("Foo$2fBar"), "FooBar");
+
+    verifyEq(JasperUtil.slotPathToSuffix("Foo$205$2dBar$2dCar"),"Foo5BarCar");
+
+    // these cases should never happen, but just in case cover
+    // when not enough chars to decode
+    verifyEq(JasperUtil.slotPathToSuffix("Foo$"),  "Foo");
+    verifyEq(JasperUtil.slotPathToSuffix("Foo$2"), "Foo");
+  }
+
+////////////////////////////////////////////////////////////////
 // testParseEnumRange
 ////////////////////////////////////////////////////////////////
 

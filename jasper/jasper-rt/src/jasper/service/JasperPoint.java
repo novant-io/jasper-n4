@@ -17,23 +17,19 @@ import javax.baja.sys.*;
 public final class JasperPoint
 {
   /** Constructor */
-  public JasperPoint(String addr, String name, String path, String enums, String unit)
+  public JasperPoint(String addr, String name, String enums, String unit)
   {
     this.addr  = addr;
     this.name  = name;
-    this.path  = path;
     this.enums = enums;
     this.unit  = unit;
   }
 
-  /** Unique address for this point. */
+  /** Address for this point under parent source. */
   public final String addr;
 
   /** Name of this point. */
   public final String name;
-
-  /** Path of this point. */
-  public final String path;
 
   /** Enum ordinal names for this point or null if not defined. */
   public final String enums;
@@ -42,4 +38,7 @@ public final class JasperPoint
   public final String unit;
 
   public String toString() { return name; }
+
+  // package private: backing comp
+  BComponent comp;
 }

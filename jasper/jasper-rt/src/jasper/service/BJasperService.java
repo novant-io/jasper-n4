@@ -131,9 +131,8 @@ public final class BJasperService extends BAbstractService
           JasperSource source = getSource(c);
           if (source == null) continue;
 
-          String addr  = JasperUtil.getPointAddr(c);
+          String addr  = JasperUtil.getPointAddr(source, c);
           String name  = JasperUtil.unescapeSlotPath(c.getName());
-          String path  = JasperUtil.unescapeSlotPath(c.getSlotPath().toString().substring(5));
           String unit  = null;
           String enums = null;
 
@@ -152,7 +151,8 @@ public final class BJasperService extends BAbstractService
             }
           }
 
-          JasperPoint point = new JasperPoint(addr, name, path, enums, unit);
+          JasperPoint point = new JasperPoint(addr, name, enums, unit);
+          point.comp = c;
           source.addPoint(point);
           numPoints++;
         }
@@ -202,6 +202,7 @@ public final class BJasperService extends BAbstractService
 
       // index source
       source = new JasperSource(id, name, path);
+      source.comp = c;
       index.addSource(source);
     }
 

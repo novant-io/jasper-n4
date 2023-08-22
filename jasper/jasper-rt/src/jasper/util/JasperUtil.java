@@ -18,6 +18,7 @@ import javax.baja.sys.*;
 import javax.baja.util.*;
 import javax.baja.web.*;
 import javax.servlet.http.*;
+import jasper.service.*;
 
 /**
  * JasperUtil
@@ -51,11 +52,15 @@ public final class JasperUtil
   /**
    * Get the Jasper point addr for given point.
    */
-  public static String getPointAddr(BComponent c)
+  public static String getPointAddr(JasperSource source, BComponent c)
   {
-    // strip h: from handle ord
-    String handle = c.getHandleOrd().toString();
-    String suffix = handle.substring(2);
+    // get relative slot path from parent source
+    String sslot  = source.slotPath();
+    String pslot  = c.getSlotPath().toString();
+    String suffix = pslot.substring(sslot.length() + 1);
+
+    // cleanup slotpath suffix
+    suffix = JasperUtil.slotPathToSuffix(suffix);
 
     // point type
     if (c instanceof BNumericWritable) return "av." + suffix;
@@ -97,6 +102,25 @@ public final class JasperUtil
         temp.append(orig.charAt(++i));
         ch = (char)Integer.parseInt(temp.toString(), 16);
       }
+      buf.append((char)ch);
+    }
+
+    return buf.toString();
+  }
+
+  /**
+   * Convert a component slot path to point addr suffix.
+   */
+  public static String slotPathToSuffix(String orig)
+  {
+    StringBuffer buf  = new StringBuffer();
+
+    for (int i=0; i<orig.length(); i++)
+    {
+      int ch = orig.charAt(i);
+           if (ch == '/') { ch = '.'; }
+      else if (ch == '$') { i += 2; continue; }
+      else if (!Character.isLetterOrDigit(ch)) { continue; }
       buf.append((char)ch);
     }
 

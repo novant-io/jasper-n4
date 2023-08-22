@@ -195,8 +195,7 @@ public final class BJasperServlet extends BWebServlet
 
       json.write('{');
       json.writeKey("addr").writeVal(p.addr).write(',');
-      json.writeKey("name").writeVal(p.name).write(',');
-      json.writeKey("path").writeVal(p.path);
+      json.writeKey("name").writeVal(p.name);
       if (p.enums != null)
       {
         json.write(',');

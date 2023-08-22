@@ -38,6 +38,12 @@ public final class JasperSource
 
   public String toString() { return name; }
 
+  // framework use only
+  public String slotPath() { return comp.getSlotPath().toString(); }
+
+  // package private: backing comp
+  BComponent comp;
+
   // package private
   void addPoint(JasperPoint p) { pmap.put(p.addr, p); }
 

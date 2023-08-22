@@ -1,5 +1,7 @@
 # Changelog
 
+## Version 0.8 (working)
+
 ## Version 0.7 (22-Aug-2023)
 * New `/sources` endpoint with nested points design
 * Change point `addr` to use relative paths

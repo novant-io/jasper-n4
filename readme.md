@@ -33,6 +33,14 @@ To setup Jasper on your JACE:
  3. Drag the `JasperService` into your `Services` component
  4. Let the index build and Done! 🏁
 
+### Rebuild Index
+
+If any changes are made to the station after the initial indexing, you will
+need to update the index to reflect the current station configuration.
+
+To rebuild the index, right click on the `JasperService` and invoke the
+`Rebuild index` action.
+
 ## API Examples
 
 ### About

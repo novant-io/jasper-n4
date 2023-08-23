@@ -96,7 +96,7 @@ To rebuild the index, right click on the `JasperService` and invoke the
           "name": "Damper Position"
         },
         {
-          "addr": "bv.",
+          "addr": "bv.FanStatus",
           "name": "Fan Status"
         },
         {

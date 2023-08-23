@@ -65,11 +65,11 @@ public final class JasperUtil
 
     // point type
     if (isType(c, "control:NumericWritable")) return "av." + suffix;
-    if (isType(c, "control:NumericPoint"))    return "ao." + suffix;
+    if (isType(c, "control:NumericPoint"))    return "ai." + suffix;
     if (isType(c, "control:BooleanWritable")) return "bv." + suffix;
-    if (isType(c, "control:BooleanPoint"))    return "bo." + suffix;
+    if (isType(c, "control:BooleanPoint"))    return "bi." + suffix;
     if (isType(c, "control:EnumWritable"))    return "ev." + suffix;
-    if (isType(c, "control:EnumPoint"))       return "eo." + suffix;
+    if (isType(c, "control:EnumPoint"))       return "ei." + suffix;
 
     // unsupported type
     throw new RuntimeException("Unsupported point type '" + c.getName() + "'");

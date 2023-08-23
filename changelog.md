@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version 0.9 (working)
+* Fix point type assigments (again)
 
 ## Version 0.8 (22-Aug-2023)
 * Fix point type assignment of writable points

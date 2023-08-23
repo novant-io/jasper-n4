@@ -65,22 +65,22 @@ To rebuild the index, right click on the `JasperService` and invoke the
         {
           "id":   "54d",
           "name": "Chiller",
-          "path": "/Drivers/NiagaraNetwork/JACE-02/points/Chiller",
+          "path": "/Drivers/NiagaraNetwork/JACE-02/points/Chiller"
         },
         {
           "id":   "620",
           "name": "VAV-1",
-          "path": "/Drivers/NiagaraNetwork/JACE-05/points/VAV-1",
+          "path": "/Drivers/NiagaraNetwork/JACE-05/points/VAV-1"
         },
         {
           "id":   "621",
           "name": "VAV-2",
-          "path": "/Drivers/NiagaraNetwork/JACE-05/points/VAV-2",
+          "path": "/Drivers/NiagaraNetwork/JACE-05/points/VAV-2"
         },
         {
           "id":   "622",
           "name": "VAV-3",
-          "path": "/Drivers/NiagaraNetwork/JACE-05/points/VAV-3",
+          "path": "/Drivers/NiagaraNetwork/JACE-05/points/VAV-3"
         }
       ]
     }
@@ -96,22 +96,22 @@ To rebuild the index, right click on the `JasperService` and invoke the
           "name": "Damper Position"
         },
         {
-          "addr": "bv.FanStatus",
+          "addr": "bv.",
           "name": "Fan Status"
         },
         {
           "addr": "av.ZoneTemp",
-          "name": "Zone Temp"
+          "name": "Zone Temp",
           "unit": "°F"
         },
         {
           "addr": "ao.ReturnTemp",
-          "name": "Return Temp"
+          "name": "Return Temp",
           "unit": "°F"
         },
         {
           "addr": "ao.DischargeTemp",
-          "name": "Discharge Temp"
+          "name": "Discharge Temp",
           "unit": "°F"
         }
       ]
@@ -123,11 +123,11 @@ To rebuild the index, right click on the `JasperService` and invoke the
 
     {
       "values": [
-        { "addr":"av.DamperPosition", "val":72.0    },
-        { "addr":"bv.FanStatus",      "val":1       },
-        { "addr":"av.ZoneTemp",       "val":72.0    },
-        { "addr":"ao.ReturnTemp",     "val":73.142  },
-        { "addr":"ao.DischargeTemp",  "val":68.230  }
+        { "addr":"av.DamperPosition", "val":72.0 },
+        { "addr":"bv.FanStatus", "val":1 },
+        { "addr":"av.ZoneTemp", "val":72.0 },
+        { "addr":"ao.ReturnTemp", "val":73.142 },
+        { "addr":"ao.DischargeTemp", "val":68.230 }
       ]
     }
 

@@ -132,7 +132,7 @@ public final class BJasperService extends BAbstractService
           if (source == null)
           {
             if (LOG.isTraceOn())
-              LOG.trace("Source not found for point:" + c.getName() + " [" + c.getSlotPath() + "]");
+              LOG.trace("Source not found for point: " + c.getName() + " [" + c.getSlotPath() + "]");
             continue;
           }
 

@@ -129,7 +129,12 @@ public final class BJasperService extends BAbstractService
         {
           // verify has source
           JasperSource source = getSource(c);
-          if (source == null) continue;
+          if (source == null)
+          {
+            if (LOG.isTraceOn())
+              LOG.trace("Source not found for point:" + c.getName() + " [" + c.getSlotPath() + "]");
+            continue;
+          }
 
           String addr  = JasperUtil.getPointAddr(source, c);
           String name  = JasperUtil.unescapeSlotPath(c.getName());
@@ -156,10 +161,18 @@ public final class BJasperService extends BAbstractService
           source.addPoint(point);
           numPoints++;
         }
+        else
+        {
+          if (LOG.isTraceOn() && c instanceof BControlPoint)
+            LOG.trace("Unsupported point:" + c.getName() + " [" + c.getSlotPath() + "]");
+        }
       }
 
       // TODO: this is design smell
       getServlet().setIndex(index);
+
+      if (LOG.isTraceOn())
+        LOG.trace("Total BComponents searched in station: " + comps.length);
 
       // complete
       BAbsTime t2 = BAbsTime.now();

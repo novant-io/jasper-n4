@@ -1,6 +1,8 @@
 # Changelog
 
 ## Version 0.10 (working)
+* Update to use HSM code signer
+* Add additional `trace` level logging
 
 ## Version 0.9 (23-Aug-2023)
 * Fix point type assignments (again)

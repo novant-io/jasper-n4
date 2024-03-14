@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.10 (working)
+## Version 0.10 (14-Mar-2024)
 * Update to use HSM code signer
 * Add additional `trace` level logging
 

@@ -4,42 +4,16 @@
 
 An implementation of the [Jasper][jasper] JSON API for Niagara N4.
 
-## Installation
+## Quick Start
 
-[rel]: https://github.com/novant-io/jasper-n4/releases
+See [Installation](https://github.com/novant-io/jasper-n4/wiki/Installation)
+for more details:
 
-### Supported Niagara Versions
-
-Jasper is compatible with Niagara `4.10` and later.
-
-### User Setup
-
-Jasper requires TLS and a user with HTTP Basic Authentication to connect to
-Niagara. To create a new user for Jasper:
-
- 1. Open the `baja` palette
- 2. Find `HTTPBasicScheme` under `AuthenticationServices/WebServicesSchemes`
- 3. Drag `HTTPBasicScheme` into your station under
-    `Services/AuthenticationServices/WebServicesSchemes`
- 4. Create a new user and set `Authentication Scheme Name` to `HTTPBasicScheme`
- 5. Verify user `Roles` has sufficient privileges
-
-### Jasper Setup
-
-To setup Jasper on your JACE:
-
- 1. Install the [latest][rel] `jasper-rt.jar` module onto your system
- 2. Open the `jasper` palette
- 3. Drag the `JasperService` into your `Services` component
- 4. Let the index build and Done! 🏁
-
-### Rebuild Index
-
-If any changes are made to the station after the initial indexing, you will
-need to update the index to reflect the current station configuration.
-
-To rebuild the index, right click on the `JasperService` and invoke the
-`Rebuild index` action.
+  1. [Check supported Niagara versions](https://github.com/novant-io/jasper-n4/wiki/Installation#supported-versions)
+  2. [Install Jasper Module](https://github.com/novant-io/jasper-n4/wiki/Installation#install-module)
+  3. [User Setup](https://github.com/novant-io/jasper-n4/wiki/Installation#user-setup)
+  4. [Jasper Setup](https://github.com/novant-io/jasper-n4/wiki/Installation#jasper-setup)
+  5. [Rebuild Index](https://github.com/novant-io/jasper-n4/wiki/Installation#rebuild-index)
 
 ## API Examples
 
@@ -130,14 +104,3 @@ To rebuild the index, right click on the `JasperService` and invoke the
         { "addr":"ao.DischargeTemp", "val":68.230 }
       ]
     }
-
-## How are Sources defined?
-
-Sources are automatically created when the `JasperService` indexes the station.
-
-A source is the parent `BComponent` of any control point. Sibling points are
-grouped together under their shared parent component.
-
-For proxy points that are ungrouped under a driver network, where the direct
-parent would be `"Points"`, the indexer will walk up one level and use the
-`BDevice` as the parent source.

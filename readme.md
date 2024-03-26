@@ -61,7 +61,7 @@ for more details:
 
 ### Points
 
-    $ curl host/jasper/v1/points -XPOST -d source_id:620 -u username:password
+    $ curl host/jasper/v1/points -XPOST -d source_id=620 -u username:password
 
     {
       "points": [
@@ -93,7 +93,7 @@ for more details:
 
 ### Values
 
-    $ curl host/jasper/v1/values -XPOST -d source_id:620  -u username:password
+    $ curl host/jasper/v1/values -XPOST -d source_id=620  -u username:password
 
     {
       "values": [

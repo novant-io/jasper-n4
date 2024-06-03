@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version 0.11 (working)
+* Update enum discovery to use `BEnumRange` API instead of manually parsing
 
 ## Version 0.10 (14-Mar-2024)
 * Update to use HSM code signer

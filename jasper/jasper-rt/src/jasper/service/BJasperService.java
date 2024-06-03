@@ -105,6 +105,7 @@ public final class BJasperService extends BAbstractService
   public void atSteadyState()
   {
     doRebuildIndex();
+    LOG.message("JasperService ready [version=" + moduleVer() + "]");
   }
 
   public void doRebuildIndex()
@@ -112,7 +113,7 @@ public final class BJasperService extends BAbstractService
     try
     {
       // start
-      LOG.message("JasperReindexJob started");
+      LOG.message("JasperReindexJob started...");
       BAbsTime t1 = BAbsTime.now();
       int numPoints = 0;
 
@@ -151,7 +152,7 @@ public final class BJasperService extends BAbstractService
             // get enum range
             if (c instanceof BEnumPoint)
             {
-              String r = f.gets("range", null);
+              BEnumRange r = (BEnumRange)f.get("range");
               if (r != null) enums = JasperUtil.parseEnumRange(r);
             }
           }
@@ -237,6 +238,12 @@ public final class BJasperService extends BAbstractService
 
     // stick with orig
     return orig;
+  }
+
+  /** Get module verson string */
+  private String moduleVer()
+  {
+    return BJasperService.TYPE.getVendorVersion().toString();
   }
 
 ////////////////////////////////////////////////////////////////

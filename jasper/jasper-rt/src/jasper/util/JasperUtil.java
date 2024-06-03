@@ -140,32 +140,26 @@ public final class JasperUtil
 
   /**
    * Parse a BFacet range value into a Jaspser compatible
-   * or 'null' if string is empty.
+   * string or 'null' if string is empty.
    */
-  public static String parseEnumRange(String range)
+  public static String parseEnumRange(BEnumRange range)
   {
-    // short-circuit if empty string
-    if (range == null || range.length() == 0) return null;
+    // short-circuit if empty range
+    if (range == null || range.isNull()) return null;
 
     // TODO: for now assume zero-based and ordered
     // {alpha=0,beta=1,gamma=2} -> alpha,beta,gamma
 
     StringBuffer buf = new StringBuffer();
-    for (int i=0; i<range.length(); i++)
+    int[] ords = range.getOrdinals();
+    for (int i=0; i<ords.length; i++)
     {
-      char ch = range.charAt(i);
-      if (ch == '{') continue;
-      if (ch == ' ') continue;
-      if (ch == '=')
-      {
-        // eat =xxx segment
-        while (ch != ',' && ch != '}')
-          ch = range.charAt(++i);
-      }
-      if (ch == '}') continue;
-      buf.append(ch);
+      if (i > 0) buf.append(',');
+      String tag = range.get(ords[i]).getTag();
+      buf.append(unescapeSlotPath(tag));
     }
 
+    // sanity check
     if (buf.length() == 0) return null;
     return buf.toString();
   }

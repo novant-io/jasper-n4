@@ -1,5 +1,7 @@
 # Changelog
 
+## Version 0.12 (working)
+
 ## Version 0.11 (3-Jun-2024)
 * Update enum discovery to use `BEnumRange` API instead of manually parsing
 

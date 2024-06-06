@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.12 (working)
+## Version 0.12 (6-Jun-2024)
 * Update to use `getDisplayName()` for source and points
 
 ## Version 0.11 (3-Jun-2024)

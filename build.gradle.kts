@@ -30,7 +30,7 @@ vendor {
   defaultVendor("Novant")
 
   // defaultModuleVersion sets the "vendorVersion" attribute on all modules
-  defaultModuleVersion("0.12")
+  defaultModuleVersion("0.13")
 }
 
 niagaraSigning {

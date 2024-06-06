@@ -133,12 +133,12 @@ public final class BJasperService extends BAbstractService
           if (source == null)
           {
             if (LOG.isTraceOn())
-              LOG.trace("Source not found for point: " + c.getName() + " [" + c.getSlotPath() + "]");
+              LOG.trace("Source not found for point: " + c.getDisplayName(null) + " [" + c.getSlotPath() + "]");
             continue;
           }
 
           String addr  = JasperUtil.getPointAddr(source, c);
-          String name  = JasperUtil.unescapeSlotPath(c.getName());
+          String name  = c.getDisplayName(null);
           String unit  = null;
           String enums = null;
 
@@ -165,7 +165,7 @@ public final class BJasperService extends BAbstractService
         else
         {
           if (LOG.isTraceOn() && c instanceof BControlPoint)
-            LOG.trace("Unsupported point:" + c.getName() + " [" + c.getSlotPath() + "]");
+            LOG.trace("Unsupported point:" + c.getDisplayName(null) + " [" + c.getSlotPath() + "]");
         }
       }
 
@@ -208,8 +208,8 @@ public final class BJasperService extends BAbstractService
     // add to cache if not found
     if (source == null)
     {
-      String name  = JasperUtil.unescapeSlotPath(c.getName());
-      String path  = JasperUtil.unescapeSlotPath(c.getSlotPath().toString().substring(5));
+      String name = c.getDisplayName(null);
+      String path = JasperUtil.unescapeSlotPath(c.getSlotPath().toString().substring(5));
 
       // filter out common stuff we likley never want
       if (path.startsWith("/Services/SecurityService/")) return null;

@@ -72,7 +72,7 @@ public final class JasperUtil
     if (isType(c, "control:EnumPoint"))       return "ei." + suffix;
 
     // unsupported type
-    throw new RuntimeException("Unsupported point type '" + c.getName() + "'");
+    throw new RuntimeException("Unsupported point type '" + c.getDisplayName(null) + "' [" + c.getSlotPath() + "]");
   }
 
   /**

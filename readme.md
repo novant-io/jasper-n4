@@ -6,16 +6,19 @@ An implementation of the [Jasper][jasper] JSON API for Niagara N4.
 
 ## Quick Start
 
-See [Installation](https://github.com/novant-io/jasper-n4/wiki/Installation)
+See [Installation](https://github.com/novant-io/jasper-n4/wiki/1.-Installation)
 for more details:
 
-  1. [Check supported Niagara versions](https://github.com/novant-io/jasper-n4/wiki/Installation#supported-versions)
-  2. [Install Jasper Module](https://github.com/novant-io/jasper-n4/wiki/Installation#install-module)
-  3. [User Setup](https://github.com/novant-io/jasper-n4/wiki/Installation#user-setup)
-  4. [Jasper Setup](https://github.com/novant-io/jasper-n4/wiki/Installation#jasper-setup)
-  5. [Rebuild Index](https://github.com/novant-io/jasper-n4/wiki/Installation#rebuild-index)
+  1. [Check supported Niagara versions](https://github.com/novant-io/jasper-n4/wiki/1.-Installation#supported-versions)
+  2. [Install Jasper Module](https://github.com/novant-io/jasper-n4/wiki/1.-Installation#install-module)
+  3. [User Setup](https://github.com/novant-io/jasper-n4/wiki/1.-Installation#user-setup)
+  4. [Jasper Setup](https://github.com/novant-io/jasper-n4/wiki/1.-Installation#jasper-setup)
+  5. [Rebuild Index](https://github.com/novant-io/jasper-n4/wiki/1.-Installation#rebuild-index)
 
 ## API Examples
+
+See [API Documention](https://github.com/novant-io/jasper-n4/wiki/2.-API-Documention)
+for more details.
 
 ### About
 

@@ -17,7 +17,7 @@ for more details:
 
 ## API Examples
 
-See [API Documention](https://github.com/novant-io/jasper-n4/wiki/2.-API-Documention)
+See [API Documentation](https://github.com/novant-io/jasper-n4/wiki/2.-API-Documentation)
 for more details.
 
 ### About

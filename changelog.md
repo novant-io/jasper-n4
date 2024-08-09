@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version 0.13 (working)
+* Support for new `/batch` endpoint
 
 ## Version 0.12 (6-Jun-2024)
 * Update to use `getDisplayName()` for source and points

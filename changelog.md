@@ -1,6 +1,8 @@
 # Changelog
 
-## Version 0.13 (working)
+## Version 0.14 (working)
+
+## Version 0.13 (9-Aug-2024)
 * Support for new `/batch` endpoint
 
 ## Version 0.12 (6-Jun-2024)

@@ -30,7 +30,7 @@ for more details.
       "model": "Niagara 4",
       "version": "4.12.0.156",
       "moduleName": "jasper",
-      "moduleVersion": "0.11"
+      "moduleVersion": "0.13"
     }
 
 ### Sources

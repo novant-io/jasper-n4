@@ -96,14 +96,14 @@ public final class BJasperServlet extends BWebServlet
         if (path[1].equals("points"))
         {
           JsonWriter w = startRes(op);
-          doPoints(w, getFormParams(req));
+          doPoints(getFormParams(req), w);
           endRes(w);
           return;
         }
         if (path[1].equals("values"))
         {
           JsonWriter w = startRes(op);
-          doValues(w, getFormParams(req));
+          doValues(getFormParams(req), w);
           endRes(w);
           return;
         }
@@ -224,7 +224,7 @@ public final class BJasperServlet extends BWebServlet
 ////////////////////////////////////////////////////////////////
 
   /** Service /v1/points request. */
-  private void doPoints(JsonWriter json, HashMap params) throws IOException
+  private void doPoints(HashMap params, JsonWriter json) throws IOException
   {
     // request args
     String sourceId = reqArgStr(params, "source_id");
@@ -268,7 +268,7 @@ public final class BJasperServlet extends BWebServlet
 ////////////////////////////////////////////////////////////////
 
   /** Service /v1/values request. */
-  private void doValues(JsonWriter json, HashMap params) throws IOException
+  private void doValues(HashMap params, JsonWriter json) throws IOException
   {
     BJasperService service = (BJasperService)this.getParent();
 
@@ -331,8 +331,10 @@ public final class BJasperServlet extends BWebServlet
 
       HashMap r = (HashMap)ops.get(i);
       String op = (String)r.get("op");
-      if (op.equals("about"))   { doAbout(json);   continue; }
-      if (op.equals("sources")) { doSources(json); continue; }
+      if (op.equals("about"))   { doAbout(json);     continue; }
+      if (op.equals("sources")) { doSources(json);   continue; }
+      if (op.equals("points"))  { doPoints(r, json); continue; }
+      if (op.equals("values"))  { doValues(r, json); continue; }
       throw new JasperServletException(400, "Invalid op '" + op + "'");
     }
 

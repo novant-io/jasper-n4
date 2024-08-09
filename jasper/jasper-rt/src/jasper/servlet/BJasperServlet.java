@@ -96,16 +96,14 @@ public final class BJasperServlet extends BWebServlet
         if (path[1].equals("points"))
         {
           JsonWriter w = startRes(op);
-          Map params = req.getParameterMap();
-          doPoints(w, params);
+          doPoints(w, getFormParams(req));
           endRes(w);
           return;
         }
         if (path[1].equals("values"))
         {
           JsonWriter w = startRes(op);
-          Map params = req.getParameterMap();
-          doValues(w, params);
+          doValues(w, getFormParams(req));
           endRes(w);
           return;
         }
@@ -135,6 +133,19 @@ public final class BJasperServlet extends BWebServlet
       ex.printStackTrace();
       JasperUtil.sendErr(op, 500, "Unexpected error", ex);
     }
+  }
+
+  private HashMap getFormParams(HttpServletRequest req)
+  {
+    HashMap map = new HashMap();
+    Enumeration e = req.getParameterNames();
+    while (e.hasMoreElements())
+    {
+      String key = (String)e.nextElement();
+      String val = req.getParameter(key);
+      map.put(key, val);
+    }
+    return map;
   }
 
   private JsonWriter startRes(WebOp op) throws IOException
@@ -213,7 +224,7 @@ public final class BJasperServlet extends BWebServlet
 ////////////////////////////////////////////////////////////////
 
   /** Service /v1/points request. */
-  private void doPoints(JsonWriter json, Map params) throws IOException
+  private void doPoints(JsonWriter json, HashMap params) throws IOException
   {
     // request args
     String sourceId = reqArgStr(params, "source_id");
@@ -257,7 +268,7 @@ public final class BJasperServlet extends BWebServlet
 ////////////////////////////////////////////////////////////////
 
   /** Service /v1/values request. */
-  private void doValues(JsonWriter json, Map params) throws IOException
+  private void doValues(JsonWriter json, HashMap params) throws IOException
   {
     BJasperService service = (BJasperService)this.getParent();
 
@@ -334,34 +345,26 @@ public final class BJasperServlet extends BWebServlet
 ////////////////////////////////////////////////////////////////
 
   /** Get HTTP request argument as 'String' or return 'defVal' if not found. */
-  private String reqArgStr(Map params, String name)
+  private String reqArgStr(HashMap params, String name)
   {
-    String val = paramVal(params, name);
+    String val = (String)params.get(name);
     if (val == null) throw new IllegalArgumentException("Missing required '" + name + "' param");
     return val;
   }
 
   /** Get HTTP request argument as 'int' or return 'defVal' if not found. */
-  private int reqArgInt(Map params, String name)
+  private int reqArgInt(HashMap params, String name)
   {
     String val = reqArgStr(params, name);
     return Integer.parseInt(val);
   }
 
   /** Get HTTP request argument as 'String' or return 'defVal' if not found. */
-  private String optArgStr(Map params, String name, String defVal)
+  private String optArgStr(HashMap params, String name, String defVal)
   {
-    String val = paramVal(params, name);
+    String val = (String)params.get(name);
     if (val == null) val = defVal;
     return val;
-  }
-
-  private String paramVal(Map params, String key)
-  {
-    String[] list = (String[])params.get(key);
-    if (list == null) return null;
-    if (list.length == 0) return null;
-    return list[0];
   }
 
 ////////////////////////////////////////////////////////////////

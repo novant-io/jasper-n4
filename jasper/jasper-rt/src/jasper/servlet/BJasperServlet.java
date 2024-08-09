@@ -109,6 +109,13 @@ public final class BJasperServlet extends BWebServlet
           endRes(w);
           return;
         }
+        if (path[1].equals("batch"))
+        {
+          JsonWriter w = startRes(op);
+          doBatch(w);
+          endRes(w);
+          return;
+        }
       }
 
       // if we get here then 404
@@ -287,6 +294,20 @@ public final class BJasperServlet extends BWebServlet
       json.write('}');
       num++;
     }
+    json.write(']');
+    json.write('}');
+  }
+
+////////////////////////////////////////////////////////////////
+// Endpoint /batch
+////////////////////////////////////////////////////////////////
+
+  /** Service /v1/batch request. */
+  private void doBatch(JsonWriter json) throws IOException
+  {
+    // response
+    json.write('{');
+    json.writeKey("results").write('[');
     json.write(']');
     json.write('}');
   }

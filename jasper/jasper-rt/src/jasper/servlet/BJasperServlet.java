@@ -79,14 +79,45 @@ public final class BJasperServlet extends BWebServlet
       // key off version
       if (path[0].equals("v1"))
       {
-        if (path[1].equals("about"))   { doAbout(op);   return; }
-        if (path[1].equals("sources")) { doSources(op); return; }
-        if (path[1].equals("points"))  { doPoints(op);  return; }
-        if (path[1].equals("values"))  { doValues(op);  return; }
+        if (path[1].equals("about"))
+        {
+          JsonWriter w = startRes(op);
+          doAbout(w);
+          endRes(w);
+          return;
+        }
+        if (path[1].equals("sources"))
+        {
+          JsonWriter w = startRes(op);
+          doSources(w);
+          endRes(w);
+          return;
+        }
+        if (path[1].equals("points"))
+        {
+          JsonWriter w = startRes(op);
+          Map params = req.getParameterMap();
+          doPoints(w, params);
+          endRes(w);
+          return;
+        }
+        if (path[1].equals("values"))
+        {
+          JsonWriter w = startRes(op);
+          Map params = req.getParameterMap();
+          doValues(w, params);
+          endRes(w);
+          return;
+        }
       }
 
       // if we get here then 404
       JasperUtil.sendNotFound(op);
+    }
+    catch (JasperServletException jse)
+    {
+      jse.printStackTrace();
+      JasperUtil.sendErr(op, jse.errCode, jse.getMessage(), jse);
     }
     catch (Exception ex)
     {
@@ -95,19 +126,29 @@ public final class BJasperServlet extends BWebServlet
     }
   }
 
-////////////////////////////////////////////////////////////////
-// Endpoint /about
-////////////////////////////////////////////////////////////////
-
-  /** Service /v1/about request. */
-  private void doAbout(WebOp op) throws IOException
+  private JsonWriter startRes(WebOp op) throws IOException
   {
     HttpServletResponse res = op.getResponse();
     res.setStatus(200);
     res.setHeader("Content-Type", "application/json");
 
-    // TODO: watch trailing comma bugs; should JsonWriter handle internally?
     JsonWriter json = new JsonWriter(res.getOutputStream());
+    return json;
+  }
+
+  private void endRes(JsonWriter json) throws IOException
+  {
+    json.flush().close();
+  }
+
+////////////////////////////////////////////////////////////////
+// Endpoint /about
+////////////////////////////////////////////////////////////////
+
+  /** Service /v1/about request. */
+  private void doAbout(JsonWriter json) throws IOException
+  {
+    // TODO: watch trailing comma bugs; should JsonWriter handle internally?
     json.write('{');
 
     // required fields
@@ -122,7 +163,6 @@ public final class BJasperServlet extends BWebServlet
     json.writeKey("moduleVersion").writeVal(BJasperService.TYPE.getVendorVersion().toString());
 
     json.write('}');
-    json.flush().close();
   }
 
 ////////////////////////////////////////////////////////////////
@@ -130,14 +170,9 @@ public final class BJasperServlet extends BWebServlet
 ////////////////////////////////////////////////////////////////
 
   /** Service /v1/sources request. */
-  private void doSources(WebOp op) throws IOException
+  private void doSources(JsonWriter json) throws IOException
   {
     // response
-    HttpServletResponse res = op.getResponse();
-    res.setStatus(200);
-    res.setHeader("Content-Type", "application/json");
-
-    JsonWriter json = new JsonWriter(res.getOutputStream());
     json.write('{');
     json.writeKey("sources").write('[');
 
@@ -160,7 +195,6 @@ public final class BJasperServlet extends BWebServlet
     }
     json.write(']');
     json.write('}');
-    json.flush().close();
   }
 
 ////////////////////////////////////////////////////////////////
@@ -168,20 +202,14 @@ public final class BJasperServlet extends BWebServlet
 ////////////////////////////////////////////////////////////////
 
   /** Service /v1/points request. */
-  private void doPoints(WebOp op) throws IOException
+  private void doPoints(JsonWriter json, Map params) throws IOException
   {
     // request args
-    HttpServletRequest req = op.getRequest();
-    String sourceId = reqArgStr(req, "source_id");
+    String sourceId = reqArgStr(params, "source_id");
     JasperSource source = index.getSource(sourceId);
-    if (source == null) { JasperUtil.sendNotFound(op); return; }
+    if (source == null) throw new JasperServletException(404, "Source not found");
 
     // response
-    HttpServletResponse res = op.getResponse();
-    res.setStatus(200);
-    res.setHeader("Content-Type", "application/json");
-
-    JsonWriter json = new JsonWriter(res.getOutputStream());
     json.write('{');
     json.writeKey("points").write('[');
     Iterator<JasperPoint> iter = source.getPoints().iterator();
@@ -211,7 +239,6 @@ public final class BJasperServlet extends BWebServlet
     }
     json.write(']');
     json.write('}');
-    json.flush().close();
   }
 
 ////////////////////////////////////////////////////////////////
@@ -219,22 +246,16 @@ public final class BJasperServlet extends BWebServlet
 ////////////////////////////////////////////////////////////////
 
   /** Service /v1/values request. */
-  private void doValues(WebOp op) throws IOException
+  private void doValues(JsonWriter json, Map params) throws IOException
   {
     BJasperService service = (BJasperService)this.getParent();
 
     // request args
-    HttpServletRequest req = op.getRequest();
-    String sourceId = reqArgStr(req, "source_id");
+    String sourceId = reqArgStr(params, "source_id");
     JasperSource source = index.getSource(sourceId);
-    if (source == null) { JasperUtil.sendNotFound(op); return; }
+    if (source == null) throw new JasperServletException(404, "Source not found");
 
     // response
-    HttpServletResponse res = op.getResponse();
-    res.setStatus(200);
-    res.setHeader("Content-Type", "application/json");
-
-    JsonWriter json = new JsonWriter(res.getOutputStream());
     json.write('{');
     json.writeKey("values").write('[');
     Iterator<JasperPoint> iter = source.getPoints().iterator();
@@ -268,7 +289,6 @@ public final class BJasperServlet extends BWebServlet
     }
     json.write(']');
     json.write('}');
-    json.flush().close();
   }
 
 ////////////////////////////////////////////////////////////////
@@ -276,26 +296,34 @@ public final class BJasperServlet extends BWebServlet
 ////////////////////////////////////////////////////////////////
 
   /** Get HTTP request argument as 'String' or return 'defVal' if not found. */
-  private String reqArgStr(HttpServletRequest req, String name)
+  private String reqArgStr(Map params, String name)
   {
-    String val = req.getParameter(name);
+    String val = paramVal(params, name);
     if (val == null) throw new IllegalArgumentException("Missing required '" + name + "' param");
     return val;
   }
 
   /** Get HTTP request argument as 'int' or return 'defVal' if not found. */
-  private int reqArgInt(HttpServletRequest req, String name)
+  private int reqArgInt(Map params, String name)
   {
-    String val = reqArgStr(req, name);
+    String val = reqArgStr(params, name);
     return Integer.parseInt(val);
   }
 
   /** Get HTTP request argument as 'String' or return 'defVal' if not found. */
-  private String optArgStr(HttpServletRequest req, String name, String defVal)
+  private String optArgStr(Map params, String name, String defVal)
   {
-    String val = req.getParameter(name);
+    String val = paramVal(params, name);
     if (val == null) val = defVal;
     return val;
+  }
+
+  private String paramVal(Map params, String key)
+  {
+    String[] list = (String[])params.get(key);
+    if (list == null) return null;
+    if (list.length == 0) return null;
+    return list[0];
   }
 
 ////////////////////////////////////////////////////////////////

@@ -111,8 +111,12 @@ public final class BJasperServlet extends BWebServlet
         }
         if (path[1].equals("batch"))
         {
+          // parse input
+          HashMap args = (HashMap)(new JsonReader(req.getInputStream()).readVal());
+
+          // service
           JsonWriter w = startRes(op);
-          doBatch(w);
+          doBatch(args, w);
           endRes(w);
           return;
         }
@@ -303,11 +307,24 @@ public final class BJasperServlet extends BWebServlet
 ////////////////////////////////////////////////////////////////
 
   /** Service /v1/batch request. */
-  private void doBatch(JsonWriter json) throws IOException
+  private void doBatch(HashMap args, JsonWriter json) throws IOException
   {
     // response
     json.write('{');
     json.writeKey("results").write('[');
+
+    ArrayList ops = (ArrayList)args.get("ops");
+    for (int i=0; i<ops.size(); i++)
+    {
+      if (i > 0) json.write(',');
+
+      HashMap r = (HashMap)ops.get(i);
+      String op = (String)r.get("op");
+      if (op.equals("about"))   { doAbout(json);   continue; }
+      if (op.equals("sources")) { doSources(json); continue; }
+      throw new JasperServletException(400, "Invalid op '" + op + "'");
+    }
+
     json.write(']');
     json.write('}');
   }

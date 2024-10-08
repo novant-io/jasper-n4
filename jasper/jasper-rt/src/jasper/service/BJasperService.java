@@ -126,46 +126,54 @@ public final class BJasperService extends BAbstractService
       for (int i=0; i<comps.length; i++)
       {
         BComponent c = comps[i];
-        if (c instanceof BNumericPoint || c instanceof BBooleanPoint || c instanceof BEnumPoint)
+        try
         {
-          // verify has source
-          JasperSource source = getSource(c);
-          if (source == null)
+          if (c instanceof BNumericPoint || c instanceof BBooleanPoint || c instanceof BEnumPoint)
           {
-            if (LOG.isTraceOn())
-              LOG.trace("Source not found for point: " + c.getDisplayName(null) + " [" + c.getSlotPath() + "]");
-            continue;
-          }
-
-          String addr  = JasperUtil.getPointAddr(source, c);
-          String name  = c.getDisplayName(null);
-          String unit  = null;
-          String enums = null;
-
-          BFacets f = (BFacets)c.get("facets");
-          if (f != null)
-          {
-            // get units
-            unit = f.gets("units", null);
-            if (unit != null && unit.equals("null")) unit = null;
-
-            // get enum range
-            if (c instanceof BEnumPoint)
+            // verify has source
+            JasperSource source = getSource(c);
+            if (source == null)
             {
-              BEnumRange r = (BEnumRange)f.get("range");
-              if (r != null) enums = JasperUtil.parseEnumRange(r);
+              if (LOG.isTraceOn())
+                LOG.trace("Source not found for point: " + c.getDisplayName(null) + " [" + c.getSlotPath() + "]");
+              continue;
             }
-          }
 
-          JasperPoint point = new JasperPoint(addr, name, enums, unit);
-          point.comp = c;
-          source.addPoint(point);
-          numPoints++;
+            String addr  = JasperUtil.getPointAddr(source, c);
+            String name  = c.getDisplayName(null);
+            String unit  = null;
+            String enums = null;
+
+            BFacets f = (BFacets)c.get("facets");
+            if (f != null)
+            {
+              // get units
+              unit = f.gets("units", null);
+              if (unit != null && unit.equals("null")) unit = null;
+
+              // get enum range
+              if (c instanceof BEnumPoint)
+              {
+                BEnumRange r = (BEnumRange)f.get("range");
+                if (r != null) enums = JasperUtil.parseEnumRange(r);
+              }
+            }
+
+            JasperPoint point = new JasperPoint(addr, name, enums, unit);
+            point.comp = c;
+            source.addPoint(point);
+            numPoints++;
+          }
+          else
+          {
+            if (LOG.isTraceOn() && c instanceof BControlPoint)
+              LOG.trace("Unsupported point:" + c.getDisplayName(null) + " [" + c.getSlotPath() + "]");
+          }
         }
-        else
+        catch (Exception e)
         {
-          if (LOG.isTraceOn() && c instanceof BControlPoint)
-            LOG.trace("Unsupported point:" + c.getDisplayName(null) + " [" + c.getSlotPath() + "]");
+          // do not fail reindex for one component; log error and continue
+          LOG.error("FAILED to index: " + c.getName(), e);
         }
       }
 

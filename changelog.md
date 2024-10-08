@@ -1,7 +1,8 @@
 # Changelog
 
 ## Version 0.14 (working)
-* Log error if `reindex` action fails
+* Log `reindex` action fails to LOG instead of `stderr`
+* Trap each `comp` lookup so whole `reindex` does not fail if error
 
 ## Version 0.13 (9-Aug-2024)
 * Support for new `/batch` endpoint

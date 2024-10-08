@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version 0.14 (working)
+* Log error if `reindex` action fails
 
 ## Version 0.13 (9-Aug-2024)
 * Support for new `/batch` endpoint

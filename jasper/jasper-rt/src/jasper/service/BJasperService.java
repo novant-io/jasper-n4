@@ -182,7 +182,10 @@ public final class BJasperService extends BAbstractService
         index.numSources() + " sources, " +
         numPoints + " points]");
     }
-    catch (Exception e) { e.printStackTrace(); }
+    catch (Exception e)
+    {
+      LOG.error("JaserReindexJob FAILED", e);
+    }
   }
 
 ////////////////////////////////////////////////////////////////

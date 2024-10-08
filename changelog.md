@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.14 (working)
+## Version 0.14 (8-Oct-2024)
 * Log `reindex` action fails to LOG instead of `stderr`
 * Trap each `comp` lookup so whole `reindex` does not fail if error
 

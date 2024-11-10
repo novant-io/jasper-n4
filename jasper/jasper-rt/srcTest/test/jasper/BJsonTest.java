@@ -50,6 +50,7 @@ public static final Type TYPE = Sys.loadType(BJsonTest.class);
 
   @Test public void testNum() throws IOException
   {
+    // test read
     verifyEq(read("5"),        new Double(5));
     verifyEq(read("-12"),      new Double(-12));
     verifyEq(read("10572"),    new Double(10572));
@@ -57,6 +58,16 @@ public static final Type TYPE = Sys.loadType(BJsonTest.class);
     verifyEq(read("-0.123"),   new Double(-0.123));
     verifyEq(read("2.351E8"),  new Double(2.351E8));
     verifyEq(read("6.195E-4"), new Double(6.195E-4));
+
+    // test write
+    verifyEq(write(5),      "5");
+    verifyEq(write(-12),    "-12");
+    verifyEq(write(5d),     "5.0");
+    verifyEq(write(-12d),   "-12.0");
+    verifyEq(write(1.345d), "1.345");
+    verifyEq(write(Double.NaN), "\"na\"");
+    verifyEq(write(Double.POSITIVE_INFINITY), "\"na\"");
+    verifyEq(write(Double.NEGATIVE_INFINITY), "\"na\"");
   }
 
   @Test public void testStr() throws IOException
@@ -236,5 +247,14 @@ public static final Type TYPE = Sys.loadType(BJsonTest.class);
     InputStream in = new ByteArrayInputStream(s.getBytes());
     JsonReader r = new JsonReader(in);
     return r.readVal();
+  }
+
+  private String write(Object obj) throws IOException
+  {
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    JsonWriter w = new JsonWriter(out);
+    w.writeVal(obj);
+    w.flush();
+    return out.toString("UTF-8");
   }
 }

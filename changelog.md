@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version 0.15 (working)
+* Beef up `JsonWriter` support for `+/-INF`
 
 ## Version 0.14 (8-Oct-2024)
 * Log `reindex` action fails to LOG instead of `stderr`

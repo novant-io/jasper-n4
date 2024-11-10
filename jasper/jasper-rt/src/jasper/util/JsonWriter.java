@@ -61,6 +61,16 @@ public final class JsonWriter
     return this;
   }
 
+  /** Write given int to output stream. */
+  public JsonWriter writeVal(double val) throws IOException
+  {
+    if (Double.isNaN(val)) { out.print("\"na\""); return this; }
+    if (val == Double.POSITIVE_INFINITY) { out.print("\"na\""); return this; }
+    if (val == Double.NEGATIVE_INFINITY) { out.print("\"na\""); return this; }
+    out.print(val);
+    return this;
+  }
+
   /** Write given object to output stream. */
   public JsonWriter writeVal(Object val) throws IOException
   {
@@ -81,6 +91,22 @@ public final class JsonWriter
       return this;
     }
 
+    // Integer
+    if (val instanceof Integer)
+    {
+      int i = ((Integer)val).intValue();
+      this.writeVal(i);
+      return this;
+    }
+
+    // Double
+    if (val instanceof Double)
+    {
+      double d = ((Double)val).doubleValue();
+      this.writeVal(d);
+      return this;
+    }
+
     // BStatusBoolean
     if (val instanceof BStatusBoolean)
     {
@@ -94,8 +120,7 @@ public final class JsonWriter
     {
       BStatusNumeric n = (BStatusNumeric)val;
       double d = n.getValue();
-      if (Double.isNaN(d)) out.print("\"na\"");
-      else out.print(d);
+      this.writeVal(d);
       return this;
     }
 

@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.15 (working)
+## Version 0.15 (9-Nov-2024)
 * Beef up `JsonWriter` support for `+/-INF`
 
 ## Version 0.14 (8-Oct-2024)

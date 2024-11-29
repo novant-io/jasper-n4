@@ -161,6 +161,42 @@ public final class JasperUtil
       }
       nw.set("in" + level, sn);
     }
+    else if (point instanceof BBooleanWritable)
+    {
+      BBooleanWritable bw = (BBooleanWritable) point;
+      BStatusBoolean sb = (BStatusBoolean) bw.getLevel(plevel).newCopy();
+      if (dval == null)
+      {
+        sb.setStatus(BStatus.nullStatus);
+      }
+      else
+      {
+        sb.setValue(dval.doubleValue() == 0 ? false : true);
+        sb.setStatus(BStatus.ok);
+      }
+      bw.set("in" + level, sb);
+    }
+    else if (point instanceof BEnumWritable)
+    {
+      BEnumWritable ew = (BEnumWritable) point;
+      BStatusEnum se = (BStatusEnum) ew.getLevel(plevel).newCopy();
+      if (dval == null)
+      {
+        se.setStatus(BStatus.nullStatus);
+      }
+      else
+      {
+        BFacets facets = point.getFacets();
+        BEnumRange range = (BEnumRange)facets.get(BFacets.RANGE);
+        int ord = dval.intValue();
+        if (ord < 0 || ord >= range.getOrdinals().length)
+          throw new IllegalArgumentException("Ordinal out of range: " + ord);
+        BEnum enm = range.get(ord);
+        se.setValue(enm);
+        se.setStatus(BStatus.ok);
+      }
+      ew.set("in" + level, se);
+    }
     else
     {
       throw new IllegalArgumentException("Unsupported writable point: " + point.getSlotPath() + " [" + point.getClass() + "]");

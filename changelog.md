@@ -1,5 +1,7 @@
 # Changelog
 
+## Version 0.17 (working)
+
 ## Version 0.16 (29-Nov-2024)
 * Support for new `/write` endpoint
 

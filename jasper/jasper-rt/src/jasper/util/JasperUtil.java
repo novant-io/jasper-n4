@@ -11,6 +11,7 @@ package jasper.util;
 import java.io.*;
 import javax.baja.io.*;
 import javax.baja.control.*;
+import javax.baja.control.enums.*;
 import javax.baja.naming.*;
 import javax.baja.registry.*;
 import javax.baja.status.*;
@@ -136,6 +137,34 @@ public final class JasperUtil
     Object out = c.get("out");
     if (out instanceof BStatusValue) return (BStatusValue)out;
     return null;
+  }
+
+  /**
+   * Set value of given point.
+   */
+  public static void setPointValue(BControlPoint point, Double dval, int level)
+  {
+    BPriorityLevel plevel = BPriorityLevel.make(level);
+
+    if (point instanceof BNumericWritable)
+    {
+      BNumericWritable nw = (BNumericWritable)point;
+      BStatusNumeric sn = (BStatusNumeric)nw.getLevel(plevel).newCopy();
+      if (dval == null)
+      {
+        sn.setStatus(BStatus.nullStatus);
+      }
+      else
+      {
+        sn.setValue(dval.doubleValue());
+        sn.setStatus(BStatus.ok);
+      }
+      nw.set("in" + level, sn);
+    }
+    else
+    {
+      throw new IllegalArgumentException("Unsupported writable point: " + point.getSlotPath() + " [" + point.getClass() + "]");
+    }
   }
 
   /**

@@ -10,6 +10,7 @@ package jasper.servlet;
 
 import java.io.*;
 import java.util.*;
+import javax.baja.control.*;
 import javax.baja.io.*;
 import javax.baja.naming.*;
 import javax.baja.status.*;
@@ -335,12 +336,28 @@ public final class BJasperServlet extends BWebServlet
 
     // request args
     String sourceId = reqArgStr(params, "source_id");
+    String paddr    = reqArgStr(params, "point_addr");
+    String sval     = reqArgStr(params, "val");
+    String slevel   = optArgStr(params, "level", "16");
+
+    // verify args
     JasperSource source = index.getSource(sourceId);
     if (source == null) throw new JasperServletException(404, "Source not found");
+    JasperPoint point = source.getPoint(paddr);
+    if (point == null) throw new JasperServletException(404, "Point not found");
+    int level = Integer.parseInt(slevel);
 
-    // TODO: point_addr
-    // TODO: val
-    // TODO: level ?: 16
+    // verify control point
+    boolean isControlPoint = point.comp instanceof BControlPoint;
+    if (!isControlPoint) throw new JasperServletException(403, "Point is not writable");
+
+    // verify writable
+    BControlPoint cpoint = (BControlPoint)point.comp;
+    if (!cpoint.isWritablePoint()) throw new JasperServletException(403, "Point is not writable");
+
+    // write point
+    Double dval = sval.equals("null") ? null : Double.parseDouble(sval);
+    JasperUtil.setPointValue(cpoint, dval, level);
 
     // response
     json.write('{');
@@ -385,7 +402,7 @@ public final class BJasperServlet extends BWebServlet
   private String reqArgStr(HashMap params, String name)
   {
     String val = (String)params.get(name);
-    if (val == null) throw new IllegalArgumentException("Missing required '" + name + "' param");
+    if (val == null) throw new JasperServletException(400, "Missing required '" + name + "' param");
     return val;
   }
 

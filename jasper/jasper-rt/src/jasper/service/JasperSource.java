@@ -33,6 +33,9 @@ public final class JasperSource
   /** Path of this source. */
   public final String path;
 
+  /** Get point for given addr or null if not found. */
+  public JasperPoint getPoint(String addr) { return (JasperPoint)pmap.get(addr); }
+
   /** Get point list for this source. */
   public Collection<JasperPoint> getPoints() { return pmap.values(); }
 

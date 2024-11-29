@@ -1,6 +1,7 @@
 # Changelog
 
-## Version 0.16 (working)
+## Version 0.16 (29-Nov-2024)
+* Support for new `/write` endpoint
 
 ## Version 0.15 (9-Nov-2024)
 * Beef up `JsonWriter` support for `+/-INF`

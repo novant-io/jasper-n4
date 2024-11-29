@@ -28,6 +28,9 @@ public final class BJasperService extends BAbstractService
     {
       servlet: BJasperServlet
         default{[ new BJasperServlet() ]}
+
+      allowWrite: boolean
+        default {[ false ]}
     }
 
     actions
@@ -62,6 +65,29 @@ public final class BJasperService extends BAbstractService
    * @see jasper.service.BJasperService#servlet
    */
   public void setServlet(BJasperServlet v) { set(servlet,v,null); }
+
+////////////////////////////////////////////////////////////////
+// Property "allowWrite"
+////////////////////////////////////////////////////////////////
+
+  /**
+   * Slot for the <code>allowWrite</code> property.
+   * @see jasper.service.BJasperService#getAllowWrite
+   * @see jasper.service.BJasperService#setAllowWrite
+   */
+  public static final Property allowWrite = newProperty(0, false, null);
+
+  /**
+   * Get the <code>allowWrite</code> property.
+   * @see jasper.service.BJasperService#allowWrite
+   */
+  public boolean getAllowWrite() { return getBoolean(allowWrite); }
+
+  /**
+   * Set the <code>allowWrite</code> property.
+   * @see jasper.service.BJasperService#allowWrite
+   */
+  public void setAllowWrite(boolean v) { setBoolean(allowWrite, v, null); }
 
 ////////////////////////////////////////////////////////////////
 // Action "rebuildIndex"

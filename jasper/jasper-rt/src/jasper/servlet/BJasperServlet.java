@@ -107,6 +107,13 @@ public final class BJasperServlet extends BWebServlet
           endRes(w);
           return;
         }
+        if (path[1].equals("write"))
+        {
+          JsonWriter w = startRes(op);
+          doWrite(getFormParams(req), w);
+          endRes(w);
+          return;
+        }
         if (path[1].equals("batch"))
         {
           // parse input
@@ -310,6 +317,34 @@ public final class BJasperServlet extends BWebServlet
       num++;
     }
     json.write(']');
+    json.write('}');
+  }
+
+////////////////////////////////////////////////////////////////
+// Endpoint /write
+////////////////////////////////////////////////////////////////
+
+  /** Service /v1/write request. */
+  private void doWrite(HashMap params, JsonWriter json) throws IOException
+  {
+    BJasperService service = (BJasperService)this.getParent();
+
+    // verify writable
+    if (service.getAllowWrite() == false)
+      throw new JasperServletException(403, "Write operations are not permitted");
+
+    // request args
+    String sourceId = reqArgStr(params, "source_id");
+    JasperSource source = index.getSource(sourceId);
+    if (source == null) throw new JasperServletException(404, "Source not found");
+
+    // TODO: point_addr
+    // TODO: val
+    // TODO: level ?: 16
+
+    // response
+    json.write('{');
+    json.writeKey("status").writeVal("ok");
     json.write('}');
   }
 

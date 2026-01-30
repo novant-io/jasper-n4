@@ -237,7 +237,7 @@ public final class BJasperServlet extends BWebServlet
     // request args
     String sourceId = reqArgStr(params, "source_id");
     JasperSource source = index.getSource(sourceId);
-    if (source == null) throw new JasperServletException(404, "Source not found");
+    if (source == null) throw new JasperServletException(404, "Source not found: " + sourceId);
 
     // response
     json.write('{');
@@ -283,7 +283,7 @@ public final class BJasperServlet extends BWebServlet
     // request args
     String sourceId = reqArgStr(params, "source_id");
     JasperSource source = index.getSource(sourceId);
-    if (source == null) throw new JasperServletException(404, "Source not found");
+    if (source == null) throw new JasperServletException(404, "Source not found: " + sourceId);
 
     // response
     json.write('{');
@@ -342,9 +342,9 @@ public final class BJasperServlet extends BWebServlet
 
     // verify args
     JasperSource source = index.getSource(sourceId);
-    if (source == null) throw new JasperServletException(404, "Source not found");
+    if (source == null) throw new JasperServletException(404, "Source not found: " + sourceId);
     JasperPoint point = source.getPoint(paddr);
-    if (point == null) throw new JasperServletException(404, "Point not found");
+    if (point == null) throw new JasperServletException(404, "Point not found: " + paddr);
     int level = Integer.parseInt(slevel);
 
     // verify control point

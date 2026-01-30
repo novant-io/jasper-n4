@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version 0.17 (working)
+* Include `source_id` in stack traces to help identify missing sources
 
 ## Version 0.16 (29-Nov-2024)
 * Support for new `/write` endpoint

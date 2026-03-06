@@ -23,6 +23,15 @@ public final class JsonWriter
     this.out = new PrintWriter(out);
   }
 
+  /** Make a buffered JsonWriter instance. */
+  public static JsonWriter makeBuf()
+  {
+    ByteArrayOutputStream buf = new ByteArrayOutputStream();
+    JsonWriter w = new JsonWriter(buf);
+    w.buf = buf;
+    return w;
+  }
+
   /** Flush underlying output stream. */
   public JsonWriter flush() throws IOException
   {
@@ -157,5 +166,13 @@ public final class JsonWriter
     throw new IOException("Unsupported type '" + val + "' [" + val.getClass().getName() + "]");
   }
 
+  /** Write raw pre-serialized content directly to output stream. */
+  public JsonWriter writeRaw(String val) throws IOException
+  {
+    out.print(val);
+    return this;
+  }
+
   private PrintWriter out;
+  private ByteArrayOutputStream buf;  // null unless makeBuf
 }

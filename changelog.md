@@ -1,6 +1,8 @@
 # Changelog
 
-## Version 0.17 (working)
+## Version 0.18 (working)
+
+## Version 0.17 (9-Mar-2026)
 * Include `source_id` in stack traces to help identify missing sources
 * Rework `/batch` to send per-op errors instead of failing whole response
 

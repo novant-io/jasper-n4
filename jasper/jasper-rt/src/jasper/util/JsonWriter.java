@@ -63,6 +63,13 @@ public final class JsonWriter
     return this;
   }
 
+  /** Write given boolean to output stream. */
+  public JsonWriter writeVal(boolean val) throws IOException
+  {
+    out.print(val ? "true" : "false");
+    return this;
+  }
+
   /** Write given int to output stream. */
   public JsonWriter writeVal(int val) throws IOException
   {
@@ -171,6 +178,14 @@ public final class JsonWriter
   {
     out.print(val);
     return this;
+  }
+
+  /** Return buffered content as string, only valid for makeBuf() instances. */
+  public String toBufStr() throws IOException
+  {
+    if (buf == null) throw new IOException("toBufStr() only valid for makeBuf() instances");
+    out.flush();
+    return buf.toString();
   }
 
   private PrintWriter out;

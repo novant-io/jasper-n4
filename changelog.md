@@ -2,6 +2,7 @@
 
 ## Version 0.17 (working)
 * Include `source_id` in stack traces to help identify missing sources
+* Rework `/batch` to send per-op errors instead of failing whole response
 
 ## Version 0.16 (29-Nov-2024)
 * Support for new `/write` endpoint

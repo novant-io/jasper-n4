@@ -380,14 +380,30 @@ public final class BJasperServlet extends BWebServlet
     for (int i=0; i<ops.size(); i++)
     {
       if (i > 0) json.write(',');
-
-      HashMap r = (HashMap)ops.get(i);
-      String op = (String)r.get("op");
-      if (op.equals("about"))   { doAbout(json);     continue; }
-      if (op.equals("sources")) { doSources(json);   continue; }
-      if (op.equals("points"))  { doPoints(r, json); continue; }
-      if (op.equals("values"))  { doValues(r, json); continue; }
-      throw new JasperServletException(400, "Invalid op '" + op + "'");
+      JsonWriter jbuf = JsonWriter.makeBuf();
+      try
+      {
+        HashMap r = (HashMap)ops.get(i);
+        String op = (String)r.get("op");
+        if (op.equals("about"))        { doAbout(jbuf);     }
+        else if (op.equals("sources")) { doSources(jbuf);   }
+        else if (op.equals("points"))  { doPoints(r, jbuf); }
+        else if (op.equals("values"))  { doValues(r, jbuf); }
+        else throw new JasperServletException(400, "Invalid op '" + op + "'");
+        json.writeRaw(jbuf.toBufStr());
+      }
+      catch (Exception ex)
+      {
+        json.write('{');
+        json.writeKey("err").writeVal(true);  // hmm - no writeVal(boolean)
+        json.write(',');
+        json.writeKey("err_msg");
+        json.writeVal(ex.getMessage());
+        json.write(',');
+        json.writeKey("err_trace");
+        json.writeVal(JasperUtil.printStackTraceToString(ex));
+        json.write('}');
+      }
     }
 
     json.write(']');

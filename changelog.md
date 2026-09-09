@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.18 (working)
+## Version 0.18 (9-Sep-2026)
 * Include `pri` priority array for writable points in `/values` endpoint
 
 ## Version 0.17 (9-Mar-2026)

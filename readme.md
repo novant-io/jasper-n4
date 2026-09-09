@@ -100,10 +100,16 @@ for more details.
 
     {
       "values": [
-        { "addr":"av.DamperPosition", "val":72.0 },
+        { "addr":"av.DamperPosition", "val":72.0, "pri":{"8":72.0,"16":50.0} },
         { "addr":"bv.FanStatus", "val":1 },
         { "addr":"av.ZoneTemp", "val":72.0 },
         { "addr":"ao.ReturnTemp", "val":73.142 },
         { "addr":"ao.DischargeTemp", "val":68.230 }
       ]
     }
+
+Writable points additionally include a `pri` object mapping the priority
+level to the value commanded at that level.  Levels that are not commanded
+are omitted, so a writable point with nothing commanded reports `"pri":{}`.
+The `pri` key is absent entirely for points that do not support priority
+levels.

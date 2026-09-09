@@ -11,8 +11,10 @@ package test.jasper;
 import java.io.*;
 import java.util.*;
 
+import javax.baja.control.*;
 import javax.baja.nre.annotations.*;
 import javax.baja.registry.*;
+import javax.baja.status.*;
 import javax.baja.sys.*;
 import javax.baja.test.BTestNg;
 import javax.baja.util.*;
@@ -108,6 +110,56 @@ public static final Type TYPE = Sys.loadType(BJasperUtilTest.class);
     // when not enough chars to decode
     verifyEq(JasperUtil.slotPathToSuffix("Foo$"),  "Foo");
     verifyEq(JasperUtil.slotPathToSuffix("Foo$2"), "Foo");
+  }
+
+////////////////////////////////////////////////////////////////
+// testGetPriorityArray
+////////////////////////////////////////////////////////////////
+
+  @Test public void testGetPriorityArray() throws IOException
+  {
+    // non-points and read-only points have no priority array
+    verifyEq(JasperUtil.getPriorityArray(new BComponent()), null);
+    verifyEq(JasperUtil.getPriorityArray(new BNumericPoint()), null);
+    verifyEq(JasperUtil.getPriorityArray(new BBooleanPoint()), null);
+
+    // writable point with nothing commanded is all nulls
+    BNumericWritable nw = new BNumericWritable();
+    verifyPriorityArray(nw, new int[] {}, new double[] {});
+
+    // command a few levels
+    JasperUtil.setPointValue(nw, Double.valueOf(72.0), 8);
+    JasperUtil.setPointValue(nw, Double.valueOf(50.0), 16);
+    verifyPriorityArray(nw, new int[] { 8, 16 }, new double[] { 72.0, 50.0 });
+
+    // release a level
+    JasperUtil.setPointValue(nw, null, 8);
+    verifyPriorityArray(nw, new int[] { 16 }, new double[] { 50.0 });
+
+    // booleans use the same slot layout
+    BBooleanWritable bw = new BBooleanWritable();
+    JasperUtil.setPointValue(bw, Double.valueOf(1.0), 10);
+    BStatusValue[] bpri = JasperUtil.getPriorityArray(bw);
+    verifyEq(bpri.length, 16);
+    verifyEq(((BStatusBoolean)bpri[9]).getValue(), true);
+  }
+
+  /** Verify only 'levels' are set, with matching 'vals'. */
+  private void verifyPriorityArray(BComponent c, int[] levels, double[] vals)
+  {
+    BStatusValue[] pri = JasperUtil.getPriorityArray(c);
+    verifyEq(pri.length, 16);
+
+    for (int i=0; i<pri.length; i++)
+    {
+      // find level in expected list
+      int match = -1;
+      for (int j=0; j<levels.length; j++)
+        if (levels[j] == i+1) match = j;
+
+      if (match < 0) { verifyEq(pri[i], null); }
+      else { verifyEq(((BStatusNumeric)pri[i]).getValue(), vals[match]); }
+    }
   }
 
 ////////////////////////////////////////////////////////////////

@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version 0.18 (working)
+* Include `pri` priority array for writable points in `/values` endpoint
 
 ## Version 0.17 (9-Mar-2026)
 * Include `source_id` in stack traces to help identify missing sources

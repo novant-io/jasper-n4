@@ -307,6 +307,9 @@ public final class BJasperServlet extends BWebServlet
         status = pv.getStatus().flagsToString(null);
       }
 
+      // get priority array if point supports it
+      BStatusValue[] pri = JasperUtil.getPriorityArray(p.comp);
+
       // prefix trailing commas
       if (num > 0) json.write(',');
 
@@ -314,6 +317,20 @@ public final class BJasperServlet extends BWebServlet
       json.writeKey("addr").writeVal(p.addr).write(',');
       json.writeKey("val").writeVal(val).write(',');
       json.writeKey("status").writeVal(status);
+      if (pri != null)
+      {
+        json.write(',');
+        json.writeKey("pri").write('{');
+        int pnum = 0;
+        for (int i=0; i<pri.length; i++)
+        {
+          if (pri[i] == null) continue;
+          if (pnum > 0) json.write(',');
+          json.writeKey(String.valueOf(i+1)).writeVal(pri[i]);
+          pnum++;
+        }
+        json.write('}');
+      }
       json.write('}');
       num++;
     }

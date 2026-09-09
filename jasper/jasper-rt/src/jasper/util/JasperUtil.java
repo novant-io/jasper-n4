@@ -140,6 +140,40 @@ public final class JasperUtil
   }
 
   /**
+   * Get the priority array for given point, or 'null' if the point
+   * does not support one (not a writable control point).  The
+   * returned array is always 16 entries, where index 0 maps to
+   * level 1, and a 'null' entry indicates that level is not
+   * currently commanded.
+   */
+  public static BStatusValue[] getPriorityArray(BComponent c)
+  {
+    // only writable control points have a priority array
+    if (!(c instanceof BControlPoint)) return null;
+    if (!((BControlPoint)c).isWritablePoint()) return null;
+
+    BStatusValue[] acc = new BStatusValue[16];
+    for (int i=0; i<acc.length; i++)
+    {
+      // levels are modeled as 'in1'..'in16' slots; use slot lookup
+      // so we stay agnostic of the point value type
+      Slot slot = c.getSlot("in" + (i+1));
+      if (slot == null || !slot.isProperty()) continue;
+
+      Object val = c.get((Property)slot);
+      if (!(val instanceof BStatusValue)) continue;
+
+      // null status indicates level is not commanded
+      BStatusValue sv = (BStatusValue)val;
+      if (sv.getStatus().isNull()) continue;
+
+      acc[i] = sv;
+    }
+
+    return acc;
+  }
+
+  /**
    * Set value of given point.
    */
   public static void setPointValue(BControlPoint point, Double dval, int level)
